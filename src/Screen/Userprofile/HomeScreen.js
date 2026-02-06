@@ -1,3 +1,4 @@
+// HomeScreen.js
 import React from 'react';
 import {
   Image,
@@ -5,22 +6,99 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ScrollView,
+  FlatList,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryButton from '../../components/PrimaryButton';
 import { MaterialIcons } from '@expo/vector-icons';
 
+const { width, height } = Dimensions.get('window');
 
-const { width } = Dimensions.get('window');
+const NEON = '#B9F54A'; // profile card green
+const DARK = '#0B0B0B';
+
+const POSTS = [
+  { id: 'create', type: 'create' },
+  {
+    id: 'p1',
+    type: 'post',
+    name: '@jenifeer',
+    age: '20yrs',
+    location: 'Savar, Dhaka',
+    image: require('../../../assets/image/welcome_bg.jpg'),
+    badges: ['Social'],
+    meta: 'Want to meet someone new 💝',
+  },
+  {
+    id: 'p2',
+    type: 'post',
+    name: '@sofia',
+    age: '22yrs',
+    location: 'Uptown',
+    image: require('../../../assets/image/welcome_bg.jpg'),
+    badges: ['Social'],
+    meta: 'Want to meet · English',
+  },
+];
 
 export default function HomeScreen() {
+  const CARD_WIDTH = Math.round(width * 0.72);
+  const SMALL_CARD = Math.round(width * 0.36);
+
+  const renderItem = ({ item, index }) => {
+    if (item.type === 'create') {
+      return (
+        <View style={[styles.emptyCard, { width: CARD_WIDTH }]}>
+          <View style={styles.emptyIconWrap}>
+            <Text style={styles.emptyIcon}>+</Text>
+          </View>
+
+          <Text style={styles.emptyText}>You don't create any post</Text>
+
+          <PrimaryButton
+            title="+ Create Post"
+            style={[styles.createPost]}
+            textStyle={styles.createPostText}
+          />
+        </View>
+      );
+    }
+
+    return (
+      <View style={[styles.postCard, { width: CARD_WIDTH }]}>
+        <Image source={item.image} style={styles.postImage} resizeMode="cover" />
+        {/* overlay vertical actions */}
+        <View style={styles.postActions}>
+          <TouchableOpacity style={styles.actionIcon}>
+            <MaterialIcons name="edit" size={18} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionIcon}>
+            <MaterialIcons name="videocam" size={18} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.actionIcon}>
+            <MaterialIcons name="delete" size={18} color="#fff" />
+          </TouchableOpacity>
+        </View>
+
+        {/* badge */}
+        <View style={styles.socialBadge}>
+          <Text style={styles.socialText}>Social</Text>
+        </View>
+
+        {/* bottom meta */}
+        <View style={styles.postMeta}>
+          <Text style={styles.postText}>{item.meta}</Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.safe}>
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
+        {/* Top white header */}
         <View style={styles.topSection}>
-          {/* Top header */}
           <View style={styles.header}>
             <View>
               <Text style={styles.logo}>Geoconnect</Text>
@@ -29,12 +107,11 @@ export default function HomeScreen() {
 
             <View style={styles.headerBadges}>
               <View style={styles.coinBadge}>
-                <Text style={styles.coinText}> <Image
-                  // replace with user's avatar
+                <Image
                   source={require('../../../assets/Icon/coin.png')}
-                  style={{ width: 15, height: 15, marginRight: 4 }}
-                />   1200</Text>
-
+                  style={{ width: 15, height: 15, marginRight: 6 }}
+                />
+                <Text style={styles.coinText}>1200</Text>
               </View>
 
               <View style={styles.onlineBadge}>
@@ -48,13 +125,14 @@ export default function HomeScreen() {
           <View style={styles.profileWrapper}>
             <View style={styles.profileCard}>
               <Image
-                // replace with user's avatar
                 source={require('../../../assets/image/welcome_bg.jpg')}
                 style={styles.avatar}
               />
 
               <View style={styles.profileInfo}>
-                <Text style={styles.name}>@jesmin <Text style={styles.age}>20yrs</Text></Text>
+                <Text style={styles.name}>
+                  @jesmin <Text style={styles.age}>20yrs</Text>
+                </Text>
                 <Text style={styles.location}>Savar, Dhaka</Text>
               </View>
 
@@ -64,9 +142,9 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
-        {/* Main black panel */}
-        <View style={styles.contentPanel}>
 
+        {/* Black content panel */}
+        <View style={styles.contentPanel}>
           {/* Status header */}
           <View style={styles.statusHeader}>
             <View style={styles.statusLeft}>
@@ -83,52 +161,33 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          {/* Status cards row */}
-          <View style={styles.statusRow}>
-            {/* Empty large card */}
-            <View style={styles.emptyCard}>
-              <View style={styles.emptyIconWrap}>
-                <Text style={styles.emptyIcon}>+</Text>
-              </View>
+          {/* Horizontal slider for posts */}
+          <View style={styles.sliderWrap}>
+            <FlatList
+              data={POSTS}
+              keyExtractor={(i) => i.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingHorizontal: 8 }}
+              snapToAlignment="start"
+              decelerationRate="fast"
+              snapToInterval={Math.round(width * 0.72 + 12)} // card width + margin
+              ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
+              renderItem={renderItem}
+            />
 
-              <Text style={styles.emptyText}>You don't create any post</Text>
-
-              <PrimaryButton
-                title="+ Create Post"
-                style={[styles.createPost]}
-                textStyle={styles.createPostText}
-              />
-            </View>
-
-            {/* Friend card */}
-            <View style={styles.friendCard}>
-              <Image
-                source={require('../../../assets/image/welcome_bg.jpg')}
-                style={styles.friendImage}
-                resizeMode="cover"
-              />
-
-              <View style={styles.socialBadge}>
-                <Text style={styles.socialText}>Social</Text>
-              </View>
-
-              <View style={styles.friendInfo}>
-                <Text style={styles.friendName}>@sofia 22yrs</Text>
-                <Text style={styles.friendMeta}>Want to meet · English</Text>
-              </View>
-            </View>
+            
+           
           </View>
 
-          {/* Bottom actions */}
+          {/* bottom actions pinned inside content panel */}
           <View style={styles.actions}>
             <TouchableOpacity style={[styles.scanBtn]}>
-
-              <Text style={styles.scanText}>
-                <Image
-                  source={require('../../../assets/Icon/scan.png')}
-                  style={{ width: 18, height: 18, }}
-
-                />  Scan</Text>
+              <Image
+                source={require('../../../assets/Icon/scan.png')}
+                style={{ width: 18, height: 18, marginRight: 8 }}
+              />
+              <Text style={styles.scanText}>Scan</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={[styles.connectBtn]}>
@@ -136,16 +195,10 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
         </View>
-
-
-
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
-
-const NEON = '#B9F54A'; // profile card green
-const DARK = '#0B0B0B';
 
 const styles = StyleSheet.create({
   safe: {
@@ -155,12 +208,15 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    paddingTop: 8,
-    paddingBottom: 12,
+    backgroundColor: '#FFFFFF',
+    marginTop: 24,
   },
+
   topSection: {
     paddingHorizontal: 16,
+    paddingTop: 10,
     zIndex: 10,
+    backgroundColor: '#FFFFFF',
   },
 
   /* Header */
@@ -169,16 +225,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 10,
+    paddingRight: 8,
   },
   logo: {
     color: DARK,
     fontWeight: '800',
-    fontSize: 20,
+    fontSize: 22,
+    fontFamily: 'Alkatra-Bold',
   },
   subtitle: {
     color: '#6C6C6C',
     fontSize: 12,
-    marginTop: 3,
+    marginTop: 0,
   },
 
   headerBadges: {
@@ -199,9 +257,7 @@ const styles = StyleSheet.create({
     color: '#141414',
     fontSize: 12,
     fontWeight: '700',
-    marginRight: 6,
   },
-
 
   onlineBadge: {
     flexDirection: 'row',
@@ -226,10 +282,8 @@ const styles = StyleSheet.create({
 
   /* Profile neon card (overlapping) */
   profileWrapper: {
-
-    // create space so the profile overlaps the contentPanel below
     marginBottom: -30,
-    zIndex: 5,
+    zIndex: 20,
   },
   profileCard: {
     flexDirection: 'row',
@@ -287,17 +341,14 @@ const styles = StyleSheet.create({
   contentPanel: {
     flex: 1,
     backgroundColor: DARK,
-    marginHorizontal: 0,
+    marginTop: 24,
     borderTopLeftRadius: 26,
     borderTopRightRadius: 26,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
     paddingTop: 30,
     paddingHorizontal: 16,
-    paddingBottom: 140, // space for buttons
-
+    paddingBottom: 140, // keep space for bottom actions
     zIndex: 1,
-    marginTop: 24,
+    minHeight: height * 0.6,
   },
 
   statusHeader: {
@@ -348,21 +399,21 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 
-  /* Row of status cards */
-  statusRow: {
+  /* Slider */
+  sliderWrap: {
+    marginTop: 6,
+    marginBottom: 24,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'space-between',
   },
 
+  /* empty create card */
   emptyCard: {
-    flex: 1,
     backgroundColor: '#2B2B2B',
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 18,
-    marginRight: 12,
     minHeight: 320,
   },
   emptyIconWrap: {
@@ -385,6 +436,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 14,
   },
+
   createPost: {
     height: 36,
     borderRadius: 10,
@@ -398,24 +450,38 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 
-  /* friend card on the right */
-  friendCard: {
-
-    width: Math.min(140, width * 0.36),
+  /* regular post card */
+  postCard: {
     borderRadius: 18,
     overflow: 'hidden',
     backgroundColor: '#151515',
     minHeight: 320,
   },
-  friendImage: {
+  postImage: {
     width: '100%',
     height: 220,
+  },
+  postActions: {
+    position: 'absolute',
+    right: 12,
+    top: 40,
+    zIndex: 5,
+    alignItems: 'center',
+  },
+  actionIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 10,
   },
+
   socialBadge: {
     position: 'absolute',
-    top: 10,
-    left: 10,
+    top: 12,
+    left: 12,
     backgroundColor: '#4FA3FF',
     borderRadius: 10,
     paddingHorizontal: 8,
@@ -426,6 +492,41 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 11,
     fontWeight: '700',
+  },
+  postMeta: {
+    padding: 12,
+  },
+  postText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+  },
+
+  /* small friend card */
+  friendCard: {
+    marginLeft: 12,
+    borderRadius: 18,
+    overflow: 'hidden',
+    backgroundColor: '#151515',
+    minHeight: 320,
+  },
+  friendImage: {
+    width: '100%',
+    height: 220,
+  },
+  friendBadge: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    backgroundColor: '#4FA3FF',
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    zIndex: 3,
+  },
+  friendBadgeText: {
+    color: '#fff',
+    fontWeight: '700',
+    fontSize: 11,
   },
   friendInfo: {
     padding: 10,
@@ -443,10 +544,12 @@ const styles = StyleSheet.create({
 
   /* bottom actions */
   actions: {
+    position: 'absolute',
+    left: 16,
+    right: 16,
+    bottom: 24,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 70,
-    marginHorizontal: 2,
     justifyContent: 'space-between',
   },
 
