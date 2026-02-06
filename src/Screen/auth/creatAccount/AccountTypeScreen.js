@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
   cards: {
     flex: 1,
-    marginTop: 20,
+
   },
   card: {
     backgroundColor: '#151515',
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#232323',
     minHeight: 250,
-    marginTop: 20,
+    marginTop: 10,
   },
   cardActive: {
     borderColor: '#B9F54A',

@@ -24,7 +24,7 @@ export default function WelcomeScreen({ navigation }) {
             <View style={styles.heroOverlay}>
               <View style={{ marginBottom: 80, flex: 1 }}>
                 <Text style={styles.brand}>Geoconnect</Text>
-                <Text style={styles.headline}>Connect with{`\n`}<Text style={{ color: '#B9F54A' }}>confidence</Text></Text>
+                <Text style={styles.headline}>Connect with{`\n`}<Text style={{ color: '#B9F54A', fontFamily: 'DMSans-Bold' }}>confidence</Text></Text>
                 <Text style={styles.subhead}>
                   Geoconnect allows users to find, interact, and meet nearby individuals, whether for casual meetups or business purposes.
                 </Text>

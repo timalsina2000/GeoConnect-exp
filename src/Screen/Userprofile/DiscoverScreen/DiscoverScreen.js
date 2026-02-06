@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: '#FF3B30',
     position: 'absolute',
-    right: 45,
+    right: 49,
     top: 6,
     borderWidth: 1,
     borderColor: '#00000055',

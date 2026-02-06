@@ -16,15 +16,15 @@ export default function NotificationsScreen({ navigation }) {
             activeOpacity={0.7}
           >
             <MaterialIcons
-                                                    name="arrow-back"
-                                                    size={26}
-                                                    color="#FAF9F9"
-                                                    style={styles.cardArrowIcon}
-                                                />
+              name="arrow-back"
+              size={26}
+              color="#FAF9F9"
+              style={styles.cardArrowIcon}
+            />
           </TouchableOpacity>
         </View>
 
-       <View style={{marginTop: 150}}>
+       <View style={{marginTop: 20}}>
         <View style={styles.iconWrap}>
           <MaterialIcons
               name="notifications"

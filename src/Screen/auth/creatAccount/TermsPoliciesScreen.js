@@ -23,7 +23,7 @@ export default function TermsPoliciesScreen({ navigation }) {
               />
             </TouchableOpacity>
           </View>
-          <View style={{ marginTop: 100 }}>
+          <View style={{ marginTop: 10 }}>
             <View style={styles.iconWrap}>
               <MaterialIcons
                 name="newspaper"

@@ -29,5 +29,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '700',
     letterSpacing: 0.4,
+    fontFamily:'Alkatra-Bold',
   },
 });
