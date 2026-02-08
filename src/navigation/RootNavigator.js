@@ -4,6 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthStack from './AuthStack';
 import BottomTabs from './BottomTabs';
 import { isAuthenticated } from '../services/auth';
+import FilterScreen from '../Screen/Userprofile/HomeScreen/HomeSetup/FilterScreen';
+import FriendScan from '../Screen/Userprofile/HomeScreen/HomeSetup/FriendScan';
+import HomeScreenSocial from '../Screen/Userprofile/HomeScreen/HomeScreenSocial';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +49,9 @@ export default function RootNavigator() {
         {() => <AuthStack onAuthSuccess={handleAuthSuccess} />}
       </Stack.Screen>
       <Stack.Screen name="HomeTabs" component={BottomTabs} />
+      <Stack.Screen name="Filter" component={FilterScreen} />
+      <Stack.Screen name="FriendScan" component={FriendScan} />
+      <Stack.Screen name="HomeScreenSocial" component={HomeScreenSocial} />
     </Stack.Navigator>
   );
 }

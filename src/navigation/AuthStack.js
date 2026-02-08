@@ -26,6 +26,8 @@ import GalleryPermissionScreen from '../Screen/auth/creatAccount/profileDetails/
 import AddPhotoFilledScreen from '../Screen/auth/creatAccount/profileDetails/AddPhotoFilledScreen';
 import SetAreaScreen from '../Screen/auth/creatAccount/profileDetails/SetAreaScreen';
 
+  
+
 enableScreens();
 
 const Stack = createNativeStackNavigator();
@@ -71,6 +73,8 @@ export default function AuthStack({ onAuthSuccess }) {
       <Stack.Screen name="OnboardingPhotoSheet" component={PhotoSheetScreen} />
       <Stack.Screen name="OnboardingCameraPermission" component={CameraPermissionScreen} />
       <Stack.Screen name="OnboardingGalleryPermission" component={GalleryPermissionScreen} />
+     
+      
       <Stack.Screen
         name="OnboardingAddPhotoFilled"
         component={AddPhotoFilledScreen}

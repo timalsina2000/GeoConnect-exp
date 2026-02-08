@@ -1,5 +1,5 @@
 // HomeScreen.js
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -9,9 +9,13 @@ import {
   FlatList,
   Dimensions,
   SafeAreaView,
+  Modal,
+  Pressable,
 } from 'react-native';
-import PrimaryButton from '../../components/PrimaryButton';
+import PrimaryButton from '../../../components/PrimaryButton';
 import { MaterialIcons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -26,7 +30,7 @@ const POSTS = [
     name: '@jenifeer',
     age: '20yrs',
     location: 'Savar, Dhaka',
-    image: require('../../../assets/image/welcome_bg.jpg'),
+    image: require('../../../../assets/image/welcome_bg.jpg'),
     badges: ['Social'],
     meta: 'Want to meet someone new 💝',
   },
@@ -36,17 +40,20 @@ const POSTS = [
     name: '@sofia',
     age: '22yrs',
     location: 'Uptown',
-    image: require('../../../assets/image/welcome_bg.jpg'),
+    image: require('../../../../assets/image/welcome_bg.jpg'),
     badges: ['Social'],
     meta: 'Want to meet · English',
   },
 ];
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const CARD_WIDTH = Math.round(width * 0.72);
-  const SMALL_CARD = Math.round(width * 0.36);
 
-  const renderItem = ({ item, index }) => {
+  // state for online/offline & modal visibility
+  const [isOnline, setIsOnline] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const renderItem = ({ item }) => {
     if (item.type === 'create') {
       return (
         <View style={[styles.emptyCard, { width: CARD_WIDTH }]}>
@@ -94,6 +101,12 @@ export default function HomeScreen() {
     );
   };
 
+  // confirm toggle
+  const handleConfirmToggle = () => {
+    setIsOnline((prev) => !prev);
+    setModalVisible(false);
+  };
+
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.container}>
@@ -108,16 +121,32 @@ export default function HomeScreen() {
             <View style={styles.headerBadges}>
               <View style={styles.coinBadge}>
                 <Image
-                  source={require('../../../assets/Icon/coin.png')}
+                  source={require('../../../../assets/Icon/coin.png')}
                   style={{ width: 15, height: 15, marginRight: 6 }}
                 />
                 <Text style={styles.coinText}>1200</Text>
+                <MaterialIcons
+                  name="arrow-forward-ios"
+                  size={12}
+                  color="#6C6C6C"
+                  style={{ marginLeft: 4 }}
+                />
               </View>
 
-              <View style={styles.onlineBadge}>
-                <View style={styles.onlineDot} />
-                <Text style={styles.onlineText}>Online</Text>
-              </View>
+              {/* make badge touchable and reflect online/offline */}
+              <TouchableOpacity
+                style={styles.onlineBadge}
+                activeOpacity={0.8}
+                onPress={() => setModalVisible(true)}
+              >
+                <MaterialIcons
+                  name="radio-button-checked"
+                  size={15}
+                  color={isOnline ? '#37C871' : '#FF4D4F'}
+                  style={styles.onlineDotIcon}
+                />
+                <Text style={styles.onlineText}>{isOnline ? 'Online' : 'Offline'}</Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -125,7 +154,7 @@ export default function HomeScreen() {
           <View style={styles.profileWrapper}>
             <View style={styles.profileCard}>
               <Image
-                source={require('../../../assets/image/welcome_bg.jpg')}
+                source={require('../../../../assets/image/welcome_bg.jpg')}
                 style={styles.avatar}
               />
 
@@ -136,8 +165,13 @@ export default function HomeScreen() {
                 <Text style={styles.location}>Savar, Dhaka</Text>
               </View>
 
-              <TouchableOpacity style={styles.businessTag}>
-                <Text style={styles.businessText}>Business</Text>
+              <TouchableOpacity style={styles.businessTag}
+                onPress={() => navigation.navigate('HomeScreenSocial')}
+              >
+               
+                <Text style={styles.businessText}> 
+                   <Image source={require('../../../../assets/Icon/redo.png')} 
+                style={{ width: 12, height: 12, }} />  Business</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -158,6 +192,17 @@ export default function HomeScreen() {
             <View style={styles.statusTabs}>
               <Text style={styles.tabActive}>Post</Text>
               <Text style={styles.tab}>Reels</Text>
+              <TouchableOpacity
+                style={{ flexDirection: 'row', alignItems: 'center' }}
+                onPress={() => navigation.navigate('Filter')}
+              >
+                <MaterialIcons
+                  name="tune"
+                  size={20}
+                  color="#8E8E8E"
+                  style={{ marginLeft: 6 }}
+                />
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -175,16 +220,16 @@ export default function HomeScreen() {
               ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
               renderItem={renderItem}
             />
-
-            
-           
           </View>
 
           {/* bottom actions pinned inside content panel */}
           <View style={styles.actions}>
-            <TouchableOpacity style={[styles.scanBtn]}>
+            <TouchableOpacity
+              style={[styles.scanBtn]}
+              onPress={() => navigation.getParent()?.navigate('FriendScan')}
+            >
               <Image
-                source={require('../../../assets/Icon/scan.png')}
+                source={require('../../../../assets/Icon/scan.png')}
                 style={{ width: 18, height: 18, marginRight: 8 }}
               />
               <Text style={styles.scanText}>Scan</Text>
@@ -196,6 +241,47 @@ export default function HomeScreen() {
           </View>
         </View>
       </View>
+
+      {/* Modal bottom-sheet confirmation with blurred background */}
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setModalVisible(false)}
+      >
+        {/* Pressable + BlurView that covers whole screen; tapping it closes the modal */}
+        <Pressable style={StyleSheet.absoluteFill} onPress={() => setModalVisible(false)}>
+          <BlurView intensity={35} tint="dark" style={StyleSheet.absoluteFill} />
+        </Pressable>
+
+        {/* bottom sheet (placed after the overlay so it's on top) */}
+        <View style={styles.modalSheet}>
+          <Text style={styles.modalTitle}>Are you sure!</Text>
+          <Text style={styles.modalSubtitle}>
+            {isOnline
+              ? `You will turn offline. You will not be able to view status & reels and you will not be able to connect to people while offline.`
+              : `You will go online and be visible to others.`}
+          </Text>
+
+          <View style={styles.modalButtons}>
+            <TouchableOpacity
+              style={[styles.modalBtnNo]}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.modalBtnNoText}>No</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.modalBtnYes]}
+              onPress={handleConfirmToggle}
+            >
+              <Text style={styles.modalBtnYesText}>
+                {isOnline ? 'Yes' : 'Go Online'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -259,6 +345,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 
+  // online badge is now TouchableOpacity
   onlineBadge: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -267,12 +354,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 6,
   },
-  onlineDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#37C871',
-    marginRight: 6,
+  onlineDotIcon: {
+    marginRight: 4,
   },
   onlineText: {
     color: DARK,
@@ -282,7 +365,7 @@ const styles = StyleSheet.create({
 
   /* Profile neon card (overlapping) */
   profileWrapper: {
-    marginBottom: -30,
+    marginBottom: -45,
     zIndex: 20,
   },
   profileCard: {
@@ -326,6 +409,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   businessTag: {
+   
     backgroundColor: DARK,
     borderRadius: 16,
     paddingHorizontal: 12,
@@ -346,7 +430,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 26,
     paddingTop: 30,
     paddingHorizontal: 16,
-    paddingBottom: 140, // keep space for bottom actions
+    paddingBottom: 140,
     zIndex: 1,
     minHeight: height * 0.6,
   },
@@ -507,7 +591,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     overflow: 'hidden',
     backgroundColor: '#151515',
-    minHeight: 320,
+    minHeight: 420,
   },
   friendImage: {
     width: '100%',
@@ -583,5 +667,64 @@ const styles = StyleSheet.create({
     color: DARK,
     fontWeight: '800',
     fontSize: 15,
+  },
+
+  /* Modal / Blur styles */
+  modalSheet: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingTop: 18,
+    paddingHorizontal: 20,
+    paddingBottom: 30,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#111111',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  modalSubtitle: {
+    color: '#6B6B6B',
+    fontSize: 13,
+    textAlign: 'center',
+    marginBottom: 18,
+    lineHeight: 18,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  modalBtnNo: {
+    flex: 1,
+    height: 44,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E6E6E6',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+    backgroundColor: '#fff',
+  },
+  modalBtnNoText: {
+    color: '#111111',
+    fontWeight: '700',
+  },
+  modalBtnYes: {
+    flex: 1,
+    height: 44,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: NEON,
+  },
+  modalBtnYesText: {
+    color: DARK,
+    fontWeight: '800',
   },
 });

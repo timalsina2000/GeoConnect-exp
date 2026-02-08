@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, Image } from 'react-native';
-import HomeScreen from '../Screen/Userprofile/HomeScreen';
+import HomeScreen from '../Screen/Userprofile/HomeScreen/HomeScreen';
 import DiscoverScreen from '../Screen/Userprofile/DiscoverScreen/DiscoverScreen';
 import ScanScreen from '../Screen/Userprofile/ScanScreen/ScanScreen';
 import ChatScreen from '../Screen/Userprofile/chatScreen/ChatScreen';
@@ -69,27 +69,7 @@ export default function BottomTabs() {
           ),
         }}
       />
-      <Tab.Screen
-        name="Scan"
-        component={ScanScreen}
-        options={{
-          tabBarLabel: ({ focused }) => (
-            <TabLabel title="Scan" focused={focused} />
-          ),
-          tabBarIcon: ({ focused, color, size }) => (
-            <Image
-              source={
-                focused
-                  ? require("../../assets/Icon/hot-zone-active.png")
-                  : require("../../assets/Icon/hot-zone.png")
-              }
-              style={{ width: size, height: size, tintColor: color }}
-              resizeMode="contain"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
+         <Tab.Screen
         name="Chat"
         component={ChatScreen}
         options={{
@@ -109,6 +89,26 @@ export default function BottomTabs() {
           ),
         }}
       />
+      <Tab.Screen
+        name="Scan"
+        component={ScanScreen}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <TabLabel title="Hot Zone" focused={focused} />
+          ),
+          tabBarIcon: ({ focused, color, size }) => (
+            <Image
+              source={
+                focused
+                  ? require("../../assets/Icon/hot-zone-active.png")
+                  : require("../../assets/Icon/hot-zone.png")
+              }
+              style={{ width: size, height: size, tintColor: color }}
+              resizeMode="contain"
+            />
+          ),
+        }}
+      /> 
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
