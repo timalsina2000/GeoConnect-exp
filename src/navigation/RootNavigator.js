@@ -6,8 +6,11 @@ import BottomTabs from './BottomTabs';
 import { isAuthenticated } from '../services/auth';
 import FilterScreen from '../Screen/Userprofile/HomeScreen/HomeSetup/FilterScreen';
 import FriendScan from '../Screen/Userprofile/HomeScreen/HomeSetup/FriendScan';
-import HomeScreenSocial from '../Screen/Userprofile/HomeScreen/HomeScreenSocial';
-
+import CreatePostScreen from '../Screen/Userprofile/HomeScreen/HomeSetup/Createpost';
+import ViewProfile from '../Screen/Userprofile/HomeScreen/HomeSetup/ViewProfile';
+import ProfileActions from '../Screen/Userprofile/HomeScreen/HomeSetup/ProfileActions';
+import ChatDetail from '../Screen/Userprofile/chatScreen/ChatDetail';
+import ShakeConnect from '../Screen/Userprofile/HomeScreen/HomeSetup/ShakeConnect';
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
@@ -51,7 +54,11 @@ export default function RootNavigator() {
       <Stack.Screen name="HomeTabs" component={BottomTabs} />
       <Stack.Screen name="Filter" component={FilterScreen} />
       <Stack.Screen name="FriendScan" component={FriendScan} />
-      <Stack.Screen name="HomeScreenSocial" component={HomeScreenSocial} />
+      <Stack.Screen name="CreatePost" component={CreatePostScreen} />
+      <Stack.Screen name="ViewProfile" component={ViewProfile} />
+      <Stack.Screen name="ProfileActions" component={ProfileActions} />
+      <Stack.Screen name="ChatDetail" component={ChatDetail} />
+      <Stack.Screen name="ShakeConnect" component={ShakeConnect} />
     </Stack.Navigator>
   );
 }

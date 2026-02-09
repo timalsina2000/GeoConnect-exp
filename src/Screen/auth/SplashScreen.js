@@ -12,7 +12,7 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Geoconnect.</Text>
+      <Text style={{fontFamily:'Alkatra-Bold',fontSize: 28,color: '#FFFFFF',letterSpacing: 0.4}}>Geoconnect.</Text>
     </View>
   );
 }

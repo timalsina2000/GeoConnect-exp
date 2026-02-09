@@ -8,8 +8,12 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Platform, // Added
+  StatusBar, // Added
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons,Feather } from '@expo/vector-icons';
+
+// ... (SAMPLE and DATA constants remain the same)
 
 const SAMPLE = [
   { id: '1', avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
@@ -31,13 +35,12 @@ const DATA = [
   { id: '7', name: '@jenifeer', subtitle: "I'm ok with that...", time: '4m', unread: 1 },
 ];
 
-// merge avatar into chat data
 const CHAT_DATA = DATA.map(item => ({
   ...item,
   avatar: SAMPLE.find(a => a.id === item.id)?.avatar,
 }));
 
-export default function ChatScreen() {
+export default function ChatScreen({ navigation }) {
   const [query, setQuery] = useState('');
 
   const filtered = useMemo(() => {
@@ -51,7 +54,17 @@ export default function ChatScreen() {
   }, [query]);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.row} activeOpacity={0.8}>
+    <TouchableOpacity
+      style={styles.row}
+      activeOpacity={0.8}
+      onPress={() =>
+        navigation.navigate('ChatDetail', {
+          name: item.name,
+          avatar: item.avatar,
+          status: 'Active 5min ago',
+        })
+      }
+    >
       <View style={styles.avatarWrap}>
         <Image source={{ uri: item.avatar }} style={styles.avatar} />
         <View style={styles.avatarRing} />
@@ -80,13 +93,17 @@ export default function ChatScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
+      {/* Set status bar style for Android/iOS */}
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
+      
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Chat</Text>
 
         <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.iconBtn}>
-            <MaterialIcons name="delete-outline" size={20} color="#0B0B0B" />
+            <Feather name="gift" size={18} color="#0B0B0B" />
+            
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconBtn}>
             <MaterialIcons name="more-vert" size={20} color="#0B0B0B" />
@@ -106,7 +123,6 @@ export default function ChatScreen() {
         />
       </View>
 
-      {/* Chat list */}
       <FlatList
         data={filtered}
         keyExtractor={i => i.id}
@@ -122,7 +138,12 @@ export default function ChatScreen() {
 const AV_SIZE = 56;
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#FFFFFF' },
+  safe: { 
+    flex: 1, 
+    backgroundColor: '#FFFFFF',
+    // Logic to fix Android Status Bar overlapping
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 
+  },
 
   header: {
     paddingHorizontal: 16,

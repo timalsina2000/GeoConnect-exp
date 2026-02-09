@@ -1,5 +1,5 @@
 // ScanScreen.js
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,10 +9,16 @@ import {
   Image,
   FlatList,
   Dimensions,
+  Platform,
+  StatusBar,
+  Modal,
+  Pressable,
+  Switch,
 } from 'react-native';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const NEON = '#B9F54A';
 const DARK = '#0B0B0B';
 const BORDER = '#EDEDED';
@@ -66,57 +72,98 @@ const PEOPLE = [
 ];
 
 export default function FriendScan({ navigation }) {
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [gender, setGender] = useState('Women');
+  const [ageRange, setAgeRange] = useState('25-28');
+
+  const AGE_RANGES = ['20-25', '25-28', '30-35', '36-40', '40-45'];
+
   const renderItem = ({ item }) => {
     return (
-      <View style={styles.personRow}>
-        <View style={styles.leftArea}>
-          <Image source={item.avatar} style={styles.avatar} />
+      // Entire row navigates to ViewProfile with the item as 'profile' param
+      <TouchableOpacity
+        activeOpacity={0.9}
+        onPress={() => navigation.navigate('ViewProfile', { profile: item })}
+      >
+        <View style={styles.personRow}>
+          <View style={styles.leftArea}>
+            <Image source={item.avatar} style={styles.avatar} />
 
-          <View style={styles.info}>
-            <View style={styles.nameRow}>
-              <Text style={styles.nameText}>{item.name}</Text>
-              <Text style={styles.ageText}>{item.age}</Text>
-              {item.verified && (
-                <View style={styles.verifiedWrap}>
-                  <Ionicons name="checkmark-circle" size={16} color="#3DA9FF" />
-                </View>
-              )}
-            </View>
+            <View style={styles.info}>
+              <View style={styles.nameRow}>
+                <Text style={styles.nameText}>{item.name}</Text>
+                <Text style={styles.ageText}>{item.age}</Text>
+                {item.verified && (
+                  <View style={styles.verifiedWrap}>
+                    <Ionicons name="checkmark-circle" size={16} color="#3DA9FF" />
+                  </View>
+                )}
+              </View>
 
-            <Text style={styles.subtitleText} numberOfLines={1}>
-              {item.subtitle}
-            </Text>
+              <Text style={styles.subtitleText} numberOfLines={1}>
+                {item.subtitle}
+              </Text>
 
-            <View style={styles.actionsRow}>
-              <TouchableOpacity style={styles.connectBtn}>
-                <Ionicons name="person-add" size={16} color={DARK} style={{ marginRight: 8 }} />
-                <Text style={styles.connectText}>Connect</Text>
-              </TouchableOpacity>
+              <View style={styles.actionsRow}>
+                <TouchableOpacity
+                  style={styles.connectBtn}
+                  onPress={(e) => {
+                    e.stopPropagation && e.stopPropagation();
+                    console.log('Connect to', item.name);
+                  }}
+                >
+                  <Ionicons name="heart-outline" size={16} color={DARK} style={{ marginRight: 8 }} />
+                  <Text style={styles.connectText}>Connect</Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity style={styles.messageBtn}>
-                <Ionicons name="chatbubble" size={16} color="#fff" style={{ marginRight: 8 }} />
-                <Text style={styles.messageText}>Message</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.messageBtn}
+                  onPress={(e) => {
+                    e.stopPropagation && e.stopPropagation();
+                    console.log('Message', item.name);
+                  }}
+                >
+                  <Ionicons name="chatbubble-outline" size={16} color="#fff" style={{ marginRight: 8 }} />
+                  <Text style={styles.messageText}>Message</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
 
-        <View style={styles.rightArea}>
-          <View style={styles.distanceRow}>
-            <View style={styles.distanceDot} />
-            <Text style={styles.distanceText}>{item.distance}</Text>
+          <View style={styles.rightArea}>
+            <View style={styles.distanceRow}>
+              <MaterialCommunityIcons name="map-marker-radius" size={12} color="#7D7D7D"  />
+              
+              <Text style={styles.distanceText}>{item.distance}</Text>
+              
+            </View>
+
+            <TouchableOpacity
+              style={styles.removeBtn}
+              onPress={(e) => {
+                e.stopPropagation && e.stopPropagation();
+                console.log('Remove', item.id);
+              }}
+            >
+              <MaterialIcons name="close" size={20} color="#9B9B9B" />
+            </TouchableOpacity>
           </View>
-
-          <TouchableOpacity style={styles.removeBtn}>
-            <MaterialIcons name="close" size={20} color="#9B9B9B" />
-          </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView
+      style={[
+        styles.safe,
+        // keep status bar gap on Android
+        { paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0 },
+      ]}
+    >
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
@@ -129,11 +176,11 @@ export default function FriendScan({ navigation }) {
 
           <View style={styles.headerCenter}>
             <Text style={styles.title}>People near by you</Text>
-            <Text style={styles.subtitle}>Savar,Dhaka</Text>
+            <Text style={styles.subtitle}>Savar, Dhaka</Text>
           </View>
 
-          <TouchableOpacity style={styles.filterBtn} onPress={() => console.log('open filter')}>
-            <Ionicons name="filter" size={20} color={DARK} />
+          <TouchableOpacity style={styles.filterBtn} onPress={() => setFilterVisible(true)}>
+            <MaterialCommunityIcons name="tune-variant" size={20} color={DARK} />
           </TouchableOpacity>
         </View>
 
@@ -149,6 +196,7 @@ export default function FriendScan({ navigation }) {
           renderItem={renderItem}
           contentContainerStyle={styles.listContent}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
+          showsVerticalScrollIndicator={false}
         />
 
         {/* Shout All button */}
@@ -159,6 +207,102 @@ export default function FriendScan({ navigation }) {
           <Text style={styles.shoutCaption}>Send everyone a message</Text>
         </View>
       </View>
+
+      {/* Filter Bottom Sheet */}
+      <Modal
+        visible={filterVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setFilterVisible(false)}
+      >
+        <Pressable style={styles.modalOverlay} onPress={() => setFilterVisible(false)}>
+          <View />
+          {/* adding the blur view  */}
+           <BlurView intensity={40} tint="dark" style={StyleSheet.absoluteFill} />
+        </Pressable>
+
+        <View style={styles.sheet}>
+          <View style={styles.sheetHandle} />
+
+          <View style={styles.sheetHeader}>
+            <Text style={styles.sheetTitle}>Filter</Text>
+            <TouchableOpacity
+              style={styles.sheetClose}
+              onPress={() => setFilterVisible(false)}
+            >
+              <Ionicons name="close" size={18} color={DARK} />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.filterRow}>
+            <Text style={styles.filterLabel}>Profile Types</Text>
+            <View style={styles.toggleRow}>
+              <Text style={styles.toggleLabel}>Verified User</Text>
+              <Switch
+                value={verifiedOnly}
+                onValueChange={setVerifiedOnly}
+                trackColor={{ false: '#E7E7E7', true: '#CFF47A' }}
+                thumbColor={verifiedOnly ? NEON : '#FFFFFF'}
+              />
+            </View>
+          </View>
+
+          <Text style={styles.sectionLabel}>Gender</Text>
+          <View style={styles.pillRow}>
+            {['Men', 'Women'].map((g) => {
+              const active = gender === g;
+              return (
+                <TouchableOpacity
+                  key={g}
+                  style={[styles.pill, active && styles.pillActive]}
+                  onPress={() => setGender(g)}
+                >
+                  <Text style={[styles.pillText, active && styles.pillTextActive]}>
+                    {g}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          <Text style={styles.sectionLabel}>Age</Text>
+          <View style={styles.pillRow}>
+            {AGE_RANGES.map((range) => {
+              const active = ageRange === range;
+              return (
+                <TouchableOpacity
+                  key={range}
+                  style={[styles.pill, active && styles.pillActive]}
+                  onPress={() => setAgeRange(range)}
+                >
+                  <Text style={[styles.pillText, active && styles.pillTextActive]}>
+                    {range}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          <View style={styles.sheetActions}>
+            <TouchableOpacity
+              style={styles.resetBtn}
+              onPress={() => {
+                setVerifiedOnly(false);
+                setGender('Women');
+                setAgeRange('25-28');
+              }}
+            >
+              <Text style={styles.resetText}>Reset</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.applyBtn}
+              onPress={() => setFilterVisible(false)}
+            >
+              <Text style={styles.applyText}>Apply</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -188,7 +332,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 2,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   headerCenter: {
     flex: 1,
@@ -211,7 +359,139 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 2,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.15)',
+  },
+  sheet: {
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingHorizontal: 16,
+    paddingTop: 8,
+    paddingBottom: 16,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+      marginTop: -100,
+    
+  },
+  sheetHandle: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#D9D9D9',
+    alignSelf: 'center',
+    marginBottom: 10,
+  },
+  sheetHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  sheetTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: DARK,
+  },
+  sheetClose: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#F2F2F2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  filterRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  filterLabel: {
+    fontSize: 12,
+    color: '#7D7D7D',
+    fontWeight: '600',
+  },
+  toggleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  toggleLabel: {
+    fontSize: 12,
+    color: DARK,
+    marginRight: 8,
+    fontWeight: '600',
+  },
+  sectionLabel: {
+    fontSize: 12,
+    color: '#7D7D7D',
+    marginBottom: 8,
+    fontWeight: '600',
+  },
+  pillRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 12,
+  },
+  pill: {
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+    borderRadius: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    marginRight: 8,
+    marginBottom: 8,
+  },
+  pillActive: {
+    backgroundColor: DARK,
+    borderColor: DARK,
+  },
+  pillText: {
+    fontSize: 12,
+    color: DARK,
+    fontWeight: '600',
+  },
+  pillTextActive: {
+    color: '#FFFFFF',
+  },
+  sheetActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 4,
+  },
+  resetBtn: {
+    flex: 1,
+    height: 44,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E6E6E6',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+    backgroundColor: '#FFFFFF',
+  },
+  resetText: {
+    fontWeight: '700',
+    color: DARK,
+  },
+  applyBtn: {
+    flex: 1,
+    height: 44,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#BDEB6D',
+  },
+  applyText: {
+    fontWeight: '800',
+    color: DARK,
   },
 
   countRow: {
@@ -225,7 +505,6 @@ const styles = StyleSheet.create({
 
   personRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
     paddingVertical: 12,
     alignItems: 'center',
   },
@@ -242,11 +521,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#fff',
     marginRight: 12,
-    // subtle shadow
-    shadowColor: '#000',
-    shadowOpacity: 0.08,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
     elevation: 3,
   },
   info: {
@@ -274,7 +548,7 @@ const styles = StyleSheet.create({
     color: '#7E7E7E',
     fontSize: 12,
     marginTop: 4,
-    width: width - 180, // keep subtitle truncated like design
+    width: width * 0.45,
   },
 
   actionsRow: {
@@ -310,7 +584,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 13,
   },
-
   rightArea: {
     width: 72,
     alignItems: 'flex-end',
@@ -322,19 +595,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 8,
   },
-  distanceDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 6,
-    backgroundColor: '#9B9B9B',
-    marginRight: 6,
-  },
+  
   distanceText: {
-    fontSize: 12,
+    fontSize: 10,
     color: '#9B9B9B',
+    marginLeft: 4,
   },
   removeBtn: {
     padding: 6,
+    top:3,
+    
   },
 
   separator: {
@@ -344,14 +614,14 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingHorizontal: 14,
-    paddingBottom: 120,
+    paddingBottom: 150,
   },
 
   bottomBar: {
     position: 'absolute',
     left: 14,
     right: 14,
-    bottom: 18,
+    bottom: 24,
     alignItems: 'center',
   },
   shoutBtn: {
@@ -361,7 +631,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 8,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   shoutText: {
     color: DARK,
@@ -371,6 +645,6 @@ const styles = StyleSheet.create({
   shoutCaption: {
     color: '#9B9B9B',
     fontSize: 12,
-    marginTop: 2,
+    marginTop: 6,
   },
 });

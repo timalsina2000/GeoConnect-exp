@@ -8,7 +8,6 @@ import RootNavigator from './src/navigation/RootNavigator';
 function App() {
   const [fontsLoaded] = useFonts({
     'Alkatra-Bold': require('./assets/fonts/Alkatra-Bold.ttf'),
-    'DMSans': require('./assets/fonts/DMSans-Bold.ttf'),
     'DMSans-Bold': require('./assets/fonts/DMSans-Bold.ttf'),
   });
 

@@ -6,7 +6,8 @@ import PrimaryButton from '../../../../components/PrimaryButton';
 
 export default function SetAreaScreen({ navigation, route }) {
   const handleDone = () => {
-    route.params?.onAuthSuccess?.('demo-token');
+    // route.params?.onAuthSuccess?.('demo-token');
+     navigation.navigate('HomeTabs');
   };
 
   return (

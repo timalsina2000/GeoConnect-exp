@@ -9,6 +9,8 @@ import {
   ScrollView,
   TextInput,
   Dimensions,
+  Platform,  // Added
+  StatusBar, // Added
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
@@ -31,7 +33,7 @@ export default function FilterScreen({ navigation }) {
   const [language, setLanguage] = useState('');
   const [relationship, setRelationship] = useState('');
   const [nationality, setNationality] = useState('');
-  const [distance, setDistance] = useState(1.2); // in km
+  const [distance, setDistance] = useState(1.2);
 
   const toggleAge = (age) => {
     setSelectedAges((prev) =>
@@ -67,13 +69,10 @@ export default function FilterScreen({ navigation }) {
       nationality,
       distance,
     };
-    // TODO: send payload to parent / store / API
     console.log('apply filters', payload);
-    // close screen if navigation available
     if (navigation && navigation.goBack) navigation.goBack();
   };
 
-  // Simple select placeholders: you can replace these TouchableOpacity with real pickers
   const renderSelectRow = (label, value, onPress) => (
     <View style={styles.row}>
       <Text style={styles.rowLabel}>{label}</Text>
@@ -88,6 +87,9 @@ export default function FilterScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.safe}>
+      {/* Set status bar to match the grey modal background */}
+      <StatusBar barStyle="dark-content" backgroundColor="#D8D8D8" />
+
       <View style={styles.headerWrap}>
         <View style={styles.headerTop}>
           <View style={styles.handle} />
@@ -109,12 +111,10 @@ export default function FilterScreen({ navigation }) {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {/* Connected to */}
         {renderSelectRow('Connected to', connectedTo, () =>
           console.log('open connected to picker')
         )}
 
-        {/* Profile Types (verified switch style) */}
         <View style={styles.row}>
           <Text style={styles.rowLabel}>Profile Types</Text>
           <View style={styles.verifiedRow}>
@@ -136,7 +136,6 @@ export default function FilterScreen({ navigation }) {
           </View>
         </View>
 
-        {/* Age chips */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Age</Text>
           <View style={styles.chipsWrap}>
@@ -157,7 +156,6 @@ export default function FilterScreen({ navigation }) {
           </View>
         </View>
 
-        {/* Interests */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Interests</Text>
           <View style={styles.chipsWrap}>
@@ -178,14 +176,12 @@ export default function FilterScreen({ navigation }) {
           </View>
         </View>
 
-        {/* Language / Relationship / Nationality */}
         {renderSelectRow('Language', language, () => console.log('open language'))}
         {renderSelectRow('Relationship', relationship, () =>
           console.log('open relationship')
         )}
         {renderSelectRow('Nationality', nationality, () => console.log('open nationality'))}
 
-        {/* Area slider */}
         <View style={[styles.section, { marginTop: 6 }]}>
           <Text style={styles.sectionTitleSmall}>Set your area</Text>
           <View style={styles.areaInfoRow}>
@@ -208,11 +204,9 @@ export default function FilterScreen({ navigation }) {
           </View>
         </View>
 
-        {/* Spacer so bottom buttons don't overlap */}
         <View style={{ height: 28 }} />
       </ScrollView>
 
-      {/* Bottom actions */}
       <View style={styles.bottomBar}>
         <TouchableOpacity style={styles.resetBtn} onPress={resetFilters}>
           <Text style={styles.resetText}>Reset</Text>
@@ -230,16 +224,17 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: '#D8D8D8',
+    // Ensures the status bar area is accounted for
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 
   headerWrap: {
-    marginTop: 40,
+    // Adjusted marginTop: on iOS it looks like a modal offset, 
+    // on Android we already added the StatusBar height to safe padding.
+    marginTop: Platform.OS === 'ios' ? 40 : 20, 
     backgroundColor: '#fff',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
-    // top neon accent
-   
-   
     paddingTop: 6,
     paddingHorizontal: 14,
   },
@@ -258,10 +253,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingBottom: 10,
   },
 
   title: {
-    fontFamily: 'DMSans-Bold',
     fontSize: 20,
     fontWeight: '800',
     color: DARK,
@@ -275,13 +270,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
 
   content: {
     paddingHorizontal: 16,
     paddingTop: 18,
-    paddingBottom: 110, // allow space for bottom bar
+    paddingBottom: 110,
     backgroundColor: '#fff',
+    // Important: fill the rest of the screen with white
+    minHeight: Dimensions.get('window').height,
   },
 
   row: {
@@ -414,12 +415,18 @@ const styles = StyleSheet.create({
 
   bottomBar: {
     position: 'absolute',
-    left: 14,
-    right: 14,
-    bottom: 20,
+    left: 0,
+    right: 0,
+    bottom: 0,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    paddingBottom: Platform.OS === 'ios' ? 30 : 20,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: BORDER,
   },
 
   resetBtn: {
@@ -441,7 +448,6 @@ const styles = StyleSheet.create({
 
   applyBtn: {
     flex: 1,
-    marginLeft: 0,
     height: 52,
     borderRadius: 12,
     alignItems: 'center',

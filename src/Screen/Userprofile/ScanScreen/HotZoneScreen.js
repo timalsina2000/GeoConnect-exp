@@ -21,7 +21,7 @@ const SAMPLE = [
   { id: '7', name: 'Seli', handle: '@seli', age: 35, avatar: 'https://randomuser.me/api/portraits/women/9.jpg' },
 ];
 
-export default function ScanScreen() {
+export default function HotZoneScreen({ navigation }) {
   // center (Florida example)
   const center = { latitude: 27.994402, longitude: -81.760254 };
 
@@ -91,7 +91,7 @@ export default function ScanScreen() {
       <View style={styles.bottomCard}>
         <View style={styles.bottomHeader}>
           <Text style={styles.peopleTitle}>People from zone</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('FriendScan')}>
             <Text style={styles.viewAll}>View all</Text>
           </TouchableOpacity>
         </View>

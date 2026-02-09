@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, Image } from 'react-native';
-import HomeScreen from '../Screen/Userprofile/HomeScreen/HomeScreen';
-import DiscoverScreen from '../Screen/Userprofile/DiscoverScreen/DiscoverScreen';
-import ScanScreen from '../Screen/Userprofile/ScanScreen/ScanScreen';
+import HomeStack from './HomeStack';
+import DiscoverScreen from '../Screen/Userprofile/DiscoverScreen/RequestScreen';
+import ScanScreen from '../Screen/Userprofile/ScanScreen/HotZoneScreen';
 import ChatScreen from '../Screen/Userprofile/chatScreen/ChatScreen';
 import ProfileScreen from '../Screen/Userprofile/ProfileScreen/ProfileScreen';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -29,7 +29,7 @@ export default function BottomTabs() {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStack}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabLabel title="Home" focused={focused} />

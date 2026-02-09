@@ -1,5 +1,5 @@
 // RequestScreen.js
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   SafeAreaView,
   View,
@@ -9,12 +9,14 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  Platform,
+  StatusBar,
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
-const SAMPLE = [
+const RECEIVED = [
   { id: '1', name: 'Rosser', handle: '@rosser', age: 35, avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
   { id: '2', name: 'Jenifeer', handle: '@jenifeer', age: 35, avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
   { id: '3', name: 'Mario', handle: '@mario', age: 35, avatar: 'https://randomuser.me/api/portraits/men/34.jpg' },
@@ -24,17 +26,45 @@ const SAMPLE = [
   { id: '7', name: 'Seli', handle: '@seli', age: 35, avatar: 'https://randomuser.me/api/portraits/women/9.jpg' },
 ];
 
-export default function RequestScreen() {
-  const [tab, setTab] = useState('received'); // 'received' | 'sent'
-  const data = useMemo(() => SAMPLE, []);
+const SENT = [
+  { id: 's1', name: 'Rosser', handle: '@rosser', age: 35, avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
+  { id: 's2', name: 'Jenifeer', handle: '@jenifeer', age: 35, avatar: 'https://randomuser.me/api/portraits/women/44.jpg' },
+  { id: 's3', name: 'Sofia', handle: '@sofia', age: 35, avatar: 'https://randomuser.me/api/portraits/women/25.jpg' },
+  { id: 's4', name: 'Mario', handle: '@mario', age: 35, avatar: 'https://randomuser.me/api/portraits/men/34.jpg' },
+  { id: 's5', name: 'Shaine', handle: '@shaine', age: 35, avatar: 'https://randomuser.me/api/portraits/men/12.jpg' },
+  { id: 's6', name: 'Aurora', handle: '@aurora', age: 35, avatar: 'https://randomuser.me/api/portraits/women/25.jpg' },
+  { id: 's7', name: 'Nora', handle: '@nora', age: 35, avatar: 'https://randomuser.me/api/portraits/women/7.jpg' },
+];
+
+export default function RequestScreen({ navigation }) {
+  const [tab, setTab] = useState('received');
+  const data = useMemo(() => (tab === 'received' ? RECEIVED : SENT), [tab]);
+  const countLabel =
+    tab === 'received'
+      ? `${data.length} connection request received`
+      : `${data.length} connection request sent`;
 
   const renderItem = ({ item, index }) => {
-    // pick a ring color for avatars for visual variety
     const ringColors = ['#FF4D6D', '#7C4DFF', '#00B0FF', '#FFB84D', '#4CAF50'];
     const ring = ringColors[index % ringColors.length];
 
     return (
-      <View style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        activeOpacity={0.85}
+        onPress={() =>
+          navigation.navigate('ViewProfile', {
+            profile: {
+              name: item.handle,
+              age: `${item.age}yrs`,
+              subtitle: 'Single | Looking for short relationship',
+              avatar: { uri: item.avatar },
+              distance: '400m',
+              verified: true,
+            },
+          })
+        }
+      >
         <View style={[styles.avatarWrap, { borderColor: ring }]}>
           <Image source={{ uri: item.avatar }} style={styles.avatar} />
         </View>
@@ -47,39 +77,67 @@ export default function RequestScreen() {
         </View>
 
         <View style={styles.actionsRight}>
-          <View style={styles.timerPill}>
-            <MaterialIcons name="camera-alt" size={14} color="#fff" />
-            <Text style={styles.timerText}> 04:59</Text>
-            {/* small red record dot */}
-            <View style={styles.recordDot} />
-          </View>
-
-          <TouchableOpacity style={styles.acceptBtn} activeOpacity={0.85}>
-            <Text style={styles.acceptText}>Accept</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.closeBtn}>
-            <Text style={styles.closeX}>×</Text>
-          </TouchableOpacity>
+          {tab === 'received' ? (
+            <>
+              <TouchableOpacity
+                style={styles.acceptBtn}
+                activeOpacity={0.85}
+                onPress={(e) => {
+                  e.stopPropagation && e.stopPropagation();
+                  console.log('Accept', item.id);
+                }}
+              >
+                <Text style={styles.acceptText}>Accept</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.closeBtn}
+                onPress={(e) => {
+                  e.stopPropagation && e.stopPropagation();
+                  console.log('Decline', item.id);
+                }}
+              >
+                <Text style={styles.closeX}>x</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <TouchableOpacity
+                style={styles.cancelBtn}
+                activeOpacity={0.85}
+                onPress={(e) => {
+                  e.stopPropagation && e.stopPropagation();
+                  console.log('Cancel request', item.id);
+                }}
+              >
+                <Text style={styles.cancelText}>Cancel</Text>
+              </TouchableOpacity>
+              <View style={styles.timerPill}>
+                <Feather name="clock" size={16} color="#4B5563" />
+                <Text style={styles.timerText}> 04:59</Text>
+              </View>
+            </>
+          )}
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   return (
     <SafeAreaView style={styles.safe}>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+
       <View style={styles.container}>
-        {/* Header */}
         <Text style={styles.title}>Request</Text>
 
-        {/* Tabs */}
         <View style={styles.tabsRow}>
           <TouchableOpacity
             style={styles.tabBtn}
             onPress={() => setTab('received')}
             activeOpacity={0.8}
           >
-            <Text style={[styles.tabText, tab === 'received' && styles.tabTextActive]}>Received</Text>
+            <Text style={[styles.tabText, tab === 'received' && styles.tabTextActive]}>
+              Received
+            </Text>
             {tab === 'received' && <View style={styles.tabIndicator} />}
           </TouchableOpacity>
 
@@ -88,14 +146,15 @@ export default function RequestScreen() {
             onPress={() => setTab('sent')}
             activeOpacity={0.8}
           >
-            <Text style={[styles.tabText, tab === 'sent' && styles.tabTextActive]}>Sent</Text>
+            <Text style={[styles.tabText, tab === 'sent' && styles.tabTextActive]}>
+              Sent
+            </Text>
             {tab === 'sent' && <View style={styles.tabIndicator} />}
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.countText}>100 connection request</Text>
+        <Text style={styles.countText}>{countLabel}</Text>
 
-        {/* list */}
         <FlatList
           data={data}
           keyExtractor={(i) => i.id}
@@ -109,43 +168,36 @@ export default function RequestScreen() {
   );
 }
 
-const ACCENT = '#B9F54A'; // light neon green seen previously
+const ACCENT = '#B9F54A';
 const BLACK = '#0B0B0B';
 const PILL_BG = '#0A0A0A';
 
 const styles = StyleSheet.create({
   safe: {
-
     flex: 1,
     backgroundColor: '#FFFFFF',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,
     paddingHorizontal: 18,
-    paddingTop: 18,
+    paddingTop: 10,
   },
-
   title: {
-    flexDirection: 'row',
-    top: 10,
     fontSize: 24,
     fontWeight: '800',
     color: BLACK,
     marginBottom: 12,
   },
-
   tabsRow: {
-    paddingHorizontal: 50,
     marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
-    gap: 50,
-
   },
   tabBtn: {
     alignItems: 'center',
-    marginRight: 24,
+    marginRight: 30,
   },
   tabText: {
     fontSize: 14,
@@ -158,29 +210,23 @@ const styles = StyleSheet.create({
   tabIndicator: {
     marginTop: 8,
     height: 3,
-    width: 99,
+    width: 65,
     backgroundColor: ACCENT,
     borderRadius: 3,
   },
-
   countText: {
     color: '#8A8A8A',
     fontSize: 12,
     marginTop: 10,
     marginBottom: 10,
   },
-
   listContent: {
     paddingBottom: 40,
   },
-
-  // row
   row: {
-    top: 10,
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 14,
-    paddingRight: 6,
   },
   avatarWrap: {
     width: 56,
@@ -195,7 +241,6 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 26,
   },
-
   info: {
     flex: 1,
   },
@@ -213,47 +258,31 @@ const styles = StyleSheet.create({
     color: '#9B9B9B',
     fontWeight: '600',
   },
-
   actionsRight: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-
   timerPill: {
-    backgroundColor: PILL_BG,
+    backgroundColor: '#F4F4F5',
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 10,
-    minWidth: 68,
+    marginLeft: 10,
+    minWidth: 74,
     justifyContent: 'center',
-    position: 'relative',
   },
   timerText: {
-    color: '#fff',
+    color: '#4B5563',
     fontWeight: '700',
-    fontSize: 13,
+    fontSize: 12,
   },
-  recordDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#FF3B30',
-    position: 'absolute',
-    right: 49,
-    top: 6,
-    borderWidth: 1,
-    borderColor: '#00000055',
-  },
-
   acceptBtn: {
     backgroundColor: ACCENT,
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 12,
-    marginRight: 8,
     minWidth: 70,
     alignItems: 'center',
   },
@@ -261,15 +290,24 @@ const styles = StyleSheet.create({
     color: BLACK,
     fontWeight: '800',
   },
-
+  cancelBtn: {
+    backgroundColor: '#F36C61',
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 12,
+    minWidth: 70,
+    alignItems: 'center',
+  },
+  cancelText: {
+    color: '#FFFFFF',
+    fontWeight: '800',
+  },
   closeBtn: {
     width: 30,
     height: 30,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: '#E6E6E6',
     alignItems: 'center',
     justifyContent: 'center',
+    marginLeft: 8,
   },
   closeX: {
     color: '#8E8E8E',
@@ -277,7 +315,6 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     fontWeight: '700',
   },
-
   sep: {
     height: 1,
     backgroundColor: '#F1F1F1',
