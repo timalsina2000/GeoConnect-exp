@@ -100,15 +100,19 @@ export default function SocialProfileScreen({ navigation }) {
               </View>
             </View>
 
-            <View style={styles.sectionCard}>
+            <TouchableOpacity
+              style={styles.sectionCard}
+              activeOpacity={0.85}
+              onPress={() => navigation.navigate('VerifyProfile')}
+            >
               <View style={styles.verifyRow}>
                 <View style={styles.verifyItem}>
                   <MaterialIcons name="check-circle" size={18} color="#2EA44F" />
                   <Text style={styles.verifyText}> Verify my profile</Text>
                 </View>
-                <Text style={styles.verifiedBadge}>Verified</Text>
+                <Text style={styles.verifiedBadge}>Verify now</Text>
               </View>
-            </View>
+            </TouchableOpacity>
 
             <View style={styles.sectionCard}>
               <View style={styles.sectionHeaderRow}>
@@ -417,21 +421,35 @@ export default function SocialProfileScreen({ navigation }) {
       >
         <Pressable style={styles.menuOverlay} onPress={() => setMenuOpen(false)}>
           <View style={styles.menuCard}>
-            <TouchableOpacity style={styles.menuItem}>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() => setMenuOpen(false)}
+            >
               <MaterialIcons name="workspace-premium" size={18} color={DARK} />
               <Text style={styles.menuText}>Upgrade Membership</Text>
             </TouchableOpacity>
             <TouchableOpacity 
-            onPress={() => navigation.navigate('BlockList')}
+            onPress={() => {
+              setMenuOpen(false);
+              navigation.navigate('BlockList');
+            }}
             style={styles.menuItem}>
               <MaterialIcons name="block" size={18} color={DARK} />
               <Text style={styles.menuText}>Block list</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.menuItem}>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() => setMenuOpen(false)}
+            >
               <MaterialIcons name="settings" size={18} color={DARK} />
               <Text style={styles.menuText}>Profile Settings</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.menuItem}>
+            <TouchableOpacity 
+            onPress={() => {
+              setMenuOpen(false);
+              navigation.navigate('Auth', { screen: 'Welcome' });
+            }}
+            style={styles.menuItem}>
               <MaterialIcons name="logout" size={18} color={DARK} />
               <Text style={styles.menuText}>Signout</Text>
             </TouchableOpacity>

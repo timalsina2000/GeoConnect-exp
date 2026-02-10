@@ -16,6 +16,7 @@ import FriendList from '../Screen/Userprofile/MoreScreen/FriendList/FriendList';
 import BlockList from '../Screen/Userprofile/MoreScreen/FriendList/BlockList';
 import WorkDetails from '../Screen/Userprofile/MoreScreen/createWork/WorkDetails';
 import SwitchProfile from '../Screen/Userprofile/MoreScreen/ProfileScreen/SwitchProfile';
+import VerifyProfile from '../Screen/Userprofile/MoreScreen/ProfileScreen/VerfiyProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +71,7 @@ export default function RootNavigator() {
       <Stack.Screen name="BlockList"  component={BlockList}/>
       <Stack.Screen name="WorkDetails"  component={WorkDetails}/>
       <Stack.Screen name="SwitchProfile" component={SwitchProfile} />
+      <Stack.Screen name="VerifyProfile" component={VerifyProfile} />
     </Stack.Navigator>
   );
 }
