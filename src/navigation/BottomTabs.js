@@ -5,7 +5,8 @@ import HomeStack from './HomeStack';
 import DiscoverScreen from '../Screen/Userprofile/DiscoverScreen/RequestScreen';
 import ScanScreen from '../Screen/Userprofile/ScanScreen/HotZoneScreen';
 import ChatScreen from '../Screen/Userprofile/chatScreen/ChatScreen';
-import ProfileScreen from '../Screen/Userprofile/ProfileScreen/ProfileScreen';
+import MoreScreen from '../Screen/Userprofile/MoreScreen/MoreScreen';
+
 import { MaterialIcons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -110,8 +111,8 @@ export default function BottomTabs() {
         }}
       /> 
       <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
+        name="More"
+        component={MoreScreen}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabLabel title="Menu" focused={focused} />

@@ -128,10 +128,97 @@ export default function ViewProfile({ navigation, route }) {
               </TouchableOpacity>
             </View>
 
+            {/* Media */}
+            <View style={styles.sectionCard}>
+              <View style={styles.mediaHeader}>
+                <Text style={styles.sectionTitle}>Media</Text>
+                <Text style={styles.mediaCount}>9</Text>
+              </View>
+              <View style={styles.mediaTabs}>
+                <Text style={styles.mediaTabActive}>Photo</Text>
+                <Text style={styles.mediaTab}>Reels</Text>
+                <Text style={styles.mediaTab}>Friends</Text>
+              </View>
+              <View style={styles.mediaRow}>
+                {[1, 2, 3].map((i) => (
+                  <View key={i} style={styles.mediaItem}>
+                    <Image source={avatar} style={styles.mediaImage} />
+                  </View>
+                ))}
+              </View>
+            </View>
+
             <View style={styles.aboutCard}>
               <Text style={styles.aboutTitle}>About</Text>
               <Text style={styles.aboutText}>
                 I'm Akmal Nasrulloh, Efficiently negotiate scalable resources after professional materials. Collaboratively utilize flexible convergence via cross-unit catalysts.
+              </Text>
+            </View>
+
+            {/* Interests */}
+            <View style={styles.sectionCard}>
+              <Text style={styles.sectionTitle}>Interests</Text>
+              <View style={styles.pillRow}>
+                {['Workout', 'Drink', 'Smoke', 'Kids'].map((tag) => (
+                  <View key={tag} style={styles.pill}>
+                    <Text style={styles.pillText}>{tag}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+
+            {/* Personal Info */}
+            <View style={styles.sectionCard}>
+              <Text style={styles.sectionTitle}>Personal Info</Text>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Full name</Text>
+                <Text style={styles.infoValue}>Akmal Nasrulloh</Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>User name</Text>
+                <Text style={styles.infoValue}>@akmalnasrulloh</Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Age</Text>
+                <Text style={styles.infoValue}>45</Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Height</Text>
+                <Text style={styles.infoValue}>5'7"</Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Weight</Text>
+                <Text style={styles.infoValue}>72</Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Location</Text>
+                <Text style={styles.infoValue}>
+                  123 Main Street, Apt 101, New York, CA 12345
+                </Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Religion</Text>
+                <Text style={styles.infoValue}>Christian</Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Relationship</Text>
+                <Text style={styles.infoValue}>Single</Text>
+              </View>
+            </View>
+
+            {/* Work Info */}
+            <View style={styles.sectionCard}>
+              <Text style={styles.sectionTitle}>Work Info</Text>
+              <Text style={styles.sectionBody}>
+                Recruiter | Helping healthcare professional finance consultant at XXX Digital
+              </Text>
+            </View>
+
+            {/* Education Info */}
+            <View style={styles.sectionCard}>
+              <Text style={styles.sectionTitle}>Education Info</Text>
+              <Text style={styles.sectionBody}>
+                Graduation in Finance from XXX University
               </Text>
             </View>
           </View>
@@ -290,5 +377,93 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     color: TEXT_GRAY,
+  },
+  mediaHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  mediaCount: {
+    fontSize: 12,
+    color: TEXT_GRAY,
+    fontWeight: '700',
+  },
+  mediaTabs: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#EFEFEF',
+    paddingBottom: 8,
+    marginBottom: 10,
+  },
+  mediaTabActive: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: DARK,
+    marginRight: 16,
+  },
+  mediaTab: {
+    fontSize: 12,
+    color: TEXT_GRAY,
+    marginRight: 16,
+  },
+  mediaRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  mediaItem: {
+    width: (width - 80) / 3,
+    height: 70,
+    borderRadius: 12,
+    overflow: 'hidden',
+    backgroundColor: '#F0F0F0',
+  },
+  mediaImage: {
+    width: '100%',
+    height: '100%',
+  },
+  sectionCard: {
+    backgroundColor: '#FFF',
+    width: '100%',
+    borderRadius: 24,
+    padding: 20,
+    marginTop: 14,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: DARK,
+    marginBottom: 10,
+  },
+  sectionBody: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: TEXT_GRAY,
+  },
+  pillRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  pill: {
+    backgroundColor: '#F2F2F2',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    marginRight: 8,
+    marginBottom: 8,
+  },
+  infoRow: {
+    marginBottom: 10,
+  },
+  infoLabel: {
+    fontSize: 12,
+    color: TEXT_GRAY,
+    marginBottom: 2,
+  },
+  infoValue: {
+    fontSize: 14,
+    color: DARK,
+    fontWeight: '600',
   },
 });

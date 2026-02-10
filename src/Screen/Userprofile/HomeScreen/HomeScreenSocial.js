@@ -278,11 +278,11 @@ const styles = StyleSheet.create({
   topSection: { paddingHorizontal: 16, paddingTop: 10, zIndex: 10 },
   
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 15 },
-  logo: { color: DARK,
-     fontWeight: '800',
+  logo: {
+     color: DARK,
       fontSize: 24,
+      fontWeight: '800',
       fontFamily:'Alkatra',
-
    },
   subtitle: { color: '#6C6C6C', fontSize: 12 },
   headerBadges: { flexDirection: 'row', alignItems: 'center' },

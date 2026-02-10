@@ -7,10 +7,16 @@ import { isAuthenticated } from '../services/auth';
 import FilterScreen from '../Screen/Userprofile/HomeScreen/HomeSetup/FilterScreen';
 import FriendScan from '../Screen/Userprofile/HomeScreen/HomeSetup/FriendScan';
 import CreatePostScreen from '../Screen/Userprofile/HomeScreen/HomeSetup/Createpost';
-import ViewProfile from '../Screen/Userprofile/HomeScreen/HomeSetup/ViewProfile';
-import ProfileActions from '../Screen/Userprofile/HomeScreen/HomeSetup/ProfileActions';
+import ViewProfile from '../Screen/Userprofile/HomeScreen/HomeSetup/ViewProfile/ViewProfile';
+import ProfileActions from '../Screen/Userprofile/HomeScreen/HomeSetup/ViewProfile/ProfileActions';
 import ChatDetail from '../Screen/Userprofile/chatScreen/ChatDetail';
 import ShakeConnect from '../Screen/Userprofile/HomeScreen/HomeSetup/ShakeConnect';
+import SocialProfileScreen from '../Screen/Userprofile/MoreScreen/ProfileScreen/SocialProfileScreen';
+import FriendList from '../Screen/Userprofile/MoreScreen/FriendList/FriendList';
+import BlockList from '../Screen/Userprofile/MoreScreen/FriendList/BlockList';
+import WorkDetails from '../Screen/Userprofile/MoreScreen/createWork/WorkDetails';
+import SwitchProfile from '../Screen/Userprofile/MoreScreen/ProfileScreen/SwitchProfile';
+
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
@@ -59,6 +65,11 @@ export default function RootNavigator() {
       <Stack.Screen name="ProfileActions" component={ProfileActions} />
       <Stack.Screen name="ChatDetail" component={ChatDetail} />
       <Stack.Screen name="ShakeConnect" component={ShakeConnect} />
+      <Stack.Screen name="SocialProfile" component={SocialProfileScreen}/>
+      <Stack.Screen name="FriendList"  component={FriendList}/>
+      <Stack.Screen name="BlockList"  component={BlockList}/>
+      <Stack.Screen name="WorkDetails"  component={WorkDetails}/>
+      <Stack.Screen name="SwitchProfile" component={SwitchProfile} />
     </Stack.Navigator>
   );
 }
