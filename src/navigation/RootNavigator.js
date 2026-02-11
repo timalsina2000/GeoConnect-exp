@@ -20,6 +20,8 @@ import VerifyProfile from '../Screen/Userprofile/Social/Menu/ProfileScreen/Verfi
 import BusinessProfileScreen from '../Screen/Userprofile/Social/Menu/ProfileScreen/BusinessProfileScreen';
 import BusinessInfo from '../Screen/Userprofile/Social/Menu/BusinessInfo/BusinessInfo';
 import ExplorePeople from '../Screen/Userprofile/Social/Menu/FriendList/ExplorePeople';
+import Setting from '../Screen/Userprofile/Social/Menu/Settings/setting';
+import NotificationSetting from '../Screen/Userprofile/Social/Menu/Settings/NotificationSetting';
 
 const Stack = createNativeStackNavigator();
 
@@ -78,6 +80,8 @@ export default function RootNavigator() {
       <Stack.Screen name="BusinessProfile" component={BusinessProfileScreen} />
       <Stack.Screen name="BusinessInfo" component={BusinessInfo} />
       <Stack.Screen name="ExplorePeople" component={ExplorePeople} /> 
+      <Stack.Screen name="Setting" component={Setting} /> 
+      <Stack.Screen name="Notification" component={NotificationSetting} /> 
       
     </Stack.Navigator>
   );

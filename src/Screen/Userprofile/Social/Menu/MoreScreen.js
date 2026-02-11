@@ -92,7 +92,10 @@ const MoreScreen = ({ navigation }) => {
             <MenuItem icon="label" title="Plans & Billing" />
             <View style={styles.separator} />
             
-            <MenuItem icon="settings" title="Settings" />
+            <MenuItem
+            onPress={() => navigation.navigate('Setting')}
+            icon="settings" title="Settings" 
+            />
             <View style={styles.separator} />
             
             <MenuItem icon="person-add" title="Invite a Friend" />
