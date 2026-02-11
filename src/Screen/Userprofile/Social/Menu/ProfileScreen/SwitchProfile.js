@@ -4,12 +4,14 @@ import {
   Text,
   StyleSheet,
   SafeAreaView,
+  StatusBar,
+  Platform,
   TouchableOpacity,
   Image,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const AVATAR = require('../../../../../assets/image/welcome_bg.jpg');
+const AVATAR = require('../../../../../../assets/image/welcome_bg.jpg');
 
 const DARK = '#0B0B0B';
 const GREEN = '#CFF47A';
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: LIGHT_BG,
     paddingHorizontal: 16,
-    paddingTop: 20,
+    paddingTop: (Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0) + 20,
   },
   header: {
     flexDirection: 'row',

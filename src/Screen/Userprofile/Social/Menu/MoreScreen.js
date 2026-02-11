@@ -6,6 +6,8 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  StatusBar,
+  Platform,
   ScrollView,
 } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -52,7 +54,7 @@ const MoreScreen = ({ navigation }) => {
         >
           <View style={styles.profileInfo}>
             <Image
-              source={require('../../../../assets/image/welcome_bg.jpg')} // Update with your image path
+              source={require('../../../../../assets/image/welcome_bg.jpg')} // Update with your image path
               style={styles.avatar}
             />
             <View style={styles.nameContainer}>
@@ -115,6 +117,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: '#F9F9F9',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0,
   },
   scrollContainer: {
     flexGrow: 1,

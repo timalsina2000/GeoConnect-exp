@@ -76,7 +76,7 @@ export default function WorkDetails({ navigation, route }) {
           <Text style={styles.label}>Upload Picture (0/5)</Text>
           <View style={styles.uploadRow}>
             <Image
-              source={require('../../../../../assets/image/welcome_bg.jpg')}
+              source={require('../../../../../../assets/image/welcome_bg.jpg')}
               style={styles.uploadThumb}
             />
             <View style={styles.uploadPlus}>

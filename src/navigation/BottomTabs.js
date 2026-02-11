@@ -2,10 +2,10 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, Image } from 'react-native';
 import HomeStack from './HomeStack';
-import DiscoverScreen from '../Screen/Userprofile/DiscoverScreen/RequestScreen';
-import ScanScreen from '../Screen/Userprofile/ScanScreen/HotZoneScreen';
-import ChatScreen from '../Screen/Userprofile/chatScreen/ChatScreen';
-import MoreScreen from '../Screen/Userprofile/MoreScreen/MoreScreen';
+import DiscoverScreen from '../Screen/Userprofile/Social/Request/RequestScreen';
+import ScanScreen from '../Screen/Userprofile/Social/HotZone/HotZoneScreen';
+import ChatScreen from '../Screen/Userprofile/Social/Chat/ChatScreen';
+import MoreScreen from '../Screen/Userprofile/Social/Menu/MoreScreen';
 
 import { MaterialIcons } from '@expo/vector-icons';
 

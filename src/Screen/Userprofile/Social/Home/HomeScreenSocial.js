@@ -14,7 +14,7 @@ import {
 // Use SafeAreaView from this library for proper Android support
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import PrimaryButton from '../../../components/PrimaryButton';
+import PrimaryButton from '../../../../components/PrimaryButton';
 import { MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 
@@ -31,7 +31,7 @@ const POSTS = [
     name: '@jenifeer',
     age: '20yrs',
     location: 'Savar, Dhaka',
-    image: require('../../../../assets/image/welcome_bg.jpg'),
+    image: require('../../../../../assets/image/welcome_bg.jpg'),
     badges: ['Social'],
     views: '12',
     meta: 'Want to meet someone new 💝',
@@ -42,7 +42,7 @@ const POSTS = [
     name: '@sofia',
     age: '22yrs',
     location: 'Uptown',
-    image: require('../../../../assets/image/welcome_bg.jpg'),
+    image: require('../../../../../assets/image/welcome_bg.jpg'),
     badges: ['Social'],
     views: '8',
     meta: 'Want to meet · English',
@@ -132,7 +132,7 @@ export default function HomeScreenSocial({ navigation }) {
             <View style={styles.headerBadges}>
               <View style={styles.coinBadge}>
                 <Image
-                  source={require('../../../../assets/Icon/coin.png')}
+                  source={require('../../../../../assets/Icon/coin.png')}
                   style={{ width: 14, height: 14, marginRight: 4 }}
                 />
                 <Text style={styles.coinText}>1200</Text>
@@ -160,7 +160,7 @@ export default function HomeScreenSocial({ navigation }) {
             <View style={styles.profileCard}>
               <View style={styles.avatarBorder}>
                 <Image
-                  source={require('../../../../assets/image/welcome_bg.jpg')}
+                  source={require('../../../../../assets/image/welcome_bg.jpg')}
                   style={styles.avatar}
                 />
               </View>
@@ -179,7 +179,7 @@ export default function HomeScreenSocial({ navigation }) {
                 style={styles.businessBtn}
                 onPress={() => navigation.navigate('HomeScreenBusiness')}
               >
-                <Image source={require('../../../../assets/Icon/redo.png')} 
+                <Image source={require('../../../../../assets/Icon/redo.png')} 
                        style={{ width: 16, height: 16, }} />
                 <Text style={styles.businessText}>Business</Text>
               </TouchableOpacity>

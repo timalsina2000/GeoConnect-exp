@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreenSocial from '../Screen/Userprofile/HomeScreen/HomeScreenSocial';
-import HomeScreenBusiness from '../Screen/Userprofile/HomeScreen/HomeScreenBusiness';
+import HomeScreenSocial from '../Screen/Userprofile/Social/Home/HomeScreenSocial';
+import HomeScreenBusiness from '../Screen/Userprofile/Social/Home/HomeScreenBusiness';
 
 const Stack = createNativeStackNavigator();
 

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {
   SafeAreaView,
+  StatusBar,
+  Platform,
   ScrollView,
   View,
   Text,
@@ -15,7 +17,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
-const AVATAR = require('../../../../../assets/image/welcome_bg.jpg');
+const AVATAR = require('../../../../../../assets/image/welcome_bg.jpg');
 
 const DARK = '#0B0B0B';
 const LIGHT_BG = '#FFFFFF';
@@ -83,7 +85,7 @@ export default function SocialProfileScreen({ navigation }) {
       <TouchableOpacity
         style={styles.switchButton}
         activeOpacity={0.9}
-        onPress={() => navigation.navigate('SwitchProfile')}
+        onPress={() => navigation.navigate('BusinessProfile')}
       >
         <Text style={styles.switchText}>Switch to Business Account</Text>
       </TouchableOpacity>
@@ -461,7 +463,11 @@ export default function SocialProfileScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: LIGHT_BG },
+  safe: {
+    flex: 1,
+    backgroundColor: LIGHT_BG,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0,
+  },
   scroll: { padding: 12 },
   card: {
     backgroundColor: CARD_BG,

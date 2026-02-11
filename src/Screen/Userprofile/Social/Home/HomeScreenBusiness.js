@@ -29,7 +29,7 @@ const POSTS = [
     name: '@jenifeer',
     age: '20yrs',
     location: 'Savar, Dhaka',
-    image: require('../../../../assets/image/welcome_bg.jpg'),
+    image: require('../../../../../assets/image/welcome_bg.jpg'),
     badge: 'Business',
     meta: 'Compellingly morph enterprise web readiness whereas user-centric methods of empowerment. 💝',
   },
@@ -39,7 +39,7 @@ const POSTS = [
     name: '@john',
     age: '24yrs',
     location: 'Downtown',
-    image: require('../../../../assets/image/welcome_bg.jpg'),
+    image: require('../../../../../assets/image/welcome_bg.jpg'),
     badge: 'Business',
     meta: 'Want to meet someone new! 🌟',
   },
@@ -104,7 +104,7 @@ export default function HomeScreenBusiness({ navigation }) {
           <View style={styles.headerBadges}>
             <View style={styles.coinBadge}>
               <Image
-                source={require('../../../../assets/Icon/coin.png')}
+                source={require('../../../../../assets/Icon/coin.png')}
                 style={{ width: 16, height: 16, marginRight: 6 }}
               />
               <Text style={styles.coinText}>1200</Text>
@@ -131,7 +131,7 @@ export default function HomeScreenBusiness({ navigation }) {
       <View style={styles.profileWrapper}>
         <View style={styles.profileCard}>
           <Image
-            source={require('../../../../assets/image/welcome_bg.jpg')}
+            source={require('../../../../../assets/image/welcome_bg.jpg')}
             style={styles.avatar}
           />
           <View style={styles.profileInfo}>
@@ -150,7 +150,7 @@ export default function HomeScreenBusiness({ navigation }) {
             style={styles.socialToggle}
             onPress={() => navigation.navigate('HomeScreenSocial')}
           >
-            <Image source={require('../../../../assets/Icon/redo.png')} 
+            <Image source={require('../../../../../assets/Icon/redo.png')} 
                             style={{ width: 12, height: 12, }} />
             <Text style={styles.socialToggleText}>Social</Text>
           </TouchableOpacity>

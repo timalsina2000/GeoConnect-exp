@@ -23,6 +23,13 @@ const COUNTRIES = [
   { code: 'NG', name: 'Nigeria', dial: '+234' },
 ];
 
+const flagEmoji = (code) =>
+  code
+    .toUpperCase()
+    .replace(/./g, (char) =>
+      String.fromCodePoint(127397 + char.charCodeAt())
+    );
+
 export default function CreateAccountScreen({ navigation, route }) {
   const [countryOpen, setCountryOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
@@ -67,7 +74,7 @@ export default function CreateAccountScreen({ navigation, route }) {
           >
             <Text style={styles.countryLabel}>Country / Region</Text>
             <Text style={styles.countryValue}>
-              {selectedCountry.name} ({selectedCountry.dial})
+              {flagEmoji(selectedCountry.code)} {selectedCountry.name} ({selectedCountry.dial})
             </Text>
           </TouchableOpacity>
 
@@ -93,7 +100,7 @@ export default function CreateAccountScreen({ navigation, route }) {
                     }}
                   >
                     <Text style={styles.countryItemText}>
-                      {item.name} ({item.dial})
+                      {flagEmoji(item.code)} {item.name} ({item.dial})
                     </Text>
                   </TouchableOpacity>
                 )}

@@ -4,19 +4,22 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthStack from './AuthStack';
 import BottomTabs from './BottomTabs';
 import { isAuthenticated } from '../services/auth';
-import FilterScreen from '../Screen/Userprofile/HomeScreen/HomeSetup/FilterScreen';
-import FriendScan from '../Screen/Userprofile/HomeScreen/HomeSetup/FriendScan';
-import CreatePostScreen from '../Screen/Userprofile/HomeScreen/HomeSetup/Createpost';
-import ViewProfile from '../Screen/Userprofile/HomeScreen/HomeSetup/ViewProfile/ViewProfile';
-import ProfileActions from '../Screen/Userprofile/HomeScreen/HomeSetup/ViewProfile/ProfileActions';
-import ChatDetail from '../Screen/Userprofile/chatScreen/ChatDetail';
-import ShakeConnect from '../Screen/Userprofile/HomeScreen/HomeSetup/ShakeConnect';
-import SocialProfileScreen from '../Screen/Userprofile/MoreScreen/ProfileScreen/SocialProfileScreen';
-import FriendList from '../Screen/Userprofile/MoreScreen/FriendList/FriendList';
-import BlockList from '../Screen/Userprofile/MoreScreen/FriendList/BlockList';
-import WorkDetails from '../Screen/Userprofile/MoreScreen/createWork/WorkDetails';
-import SwitchProfile from '../Screen/Userprofile/MoreScreen/ProfileScreen/SwitchProfile';
-import VerifyProfile from '../Screen/Userprofile/MoreScreen/ProfileScreen/VerfiyProfile';
+import FilterScreen from '../Screen/Userprofile/Social/Home/HomeSetup/Filter/FilterScreen';
+import FriendScan from '../Screen/Userprofile/Social/HotZone/FriendScan';
+import CreatePostScreen from '../Screen/Userprofile/Social/Home/HomeSetup/Createpost/Createpost';
+import ViewProfile from '../Screen/Userprofile/Social/Home/HomeSetup/ViewProfile/ViewProfile';
+import ProfileActions from '../Screen/Userprofile/Social/Home/HomeSetup/ViewProfile/ProfileActions';
+import ChatDetail from '../Screen/Userprofile/Social/Chat/ChatDetail';
+import ShakeConnect from '../Screen/Userprofile/Social/Home/HomeSetup/ShakeConnect';
+import SocialProfileScreen from '../Screen/Userprofile/Social/Menu/ProfileScreen/SocialProfileScreen';
+import FriendList from '../Screen/Userprofile/Social/Menu/FriendList/FriendList';
+import BlockList from '../Screen/Userprofile/Social/Menu/FriendList/BlockList';
+import WorkDetails from '../Screen/Userprofile/Social/Menu/createWork/WorkDetails';
+import SwitchProfile from '../Screen/Userprofile/Social/Menu/ProfileScreen/SwitchProfile';
+import VerifyProfile from '../Screen/Userprofile/Social/Menu/ProfileScreen/VerfiyProfile';
+import BusinessProfileScreen from '../Screen/Userprofile/Social/Menu/ProfileScreen/BusinessProfileScreen';
+import BusinessInfo from '../Screen/Userprofile/Social/Menu/BusinessInfo/BusinessInfo';
+import ExplorePeople from '../Screen/Userprofile/Social/Menu/FriendList/ExplorePeople';
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +75,10 @@ export default function RootNavigator() {
       <Stack.Screen name="WorkDetails"  component={WorkDetails}/>
       <Stack.Screen name="SwitchProfile" component={SwitchProfile} />
       <Stack.Screen name="VerifyProfile" component={VerifyProfile} />
+      <Stack.Screen name="BusinessProfile" component={BusinessProfileScreen} />
+      <Stack.Screen name="BusinessInfo" component={BusinessInfo} />
+      <Stack.Screen name="ExplorePeople" component={ExplorePeople} /> 
+      
     </Stack.Navigator>
   );
 }

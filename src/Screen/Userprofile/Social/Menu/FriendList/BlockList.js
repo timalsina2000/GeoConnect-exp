@@ -66,7 +66,7 @@ export default function BlockList({ navigation }) {
         <TouchableOpacity style={styles.headerIconBtn} onPress={() => navigation?.goBack()}>
           <Ionicons name="arrow-back" size={22} color={DARK} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Friend List</Text>
+        <Text style={styles.headerTitle}>Block List</Text>
         <TouchableOpacity style={styles.headerIconBtn}>
           <MaterialCommunityIcons name="tune-variant" size={22} color={DARK} />
         </TouchableOpacity>
