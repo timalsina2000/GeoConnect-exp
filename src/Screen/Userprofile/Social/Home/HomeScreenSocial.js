@@ -156,7 +156,11 @@ export default function HomeScreenSocial({ navigation }) {
           </View>
 
           {/* Profile Neon Card */}
-          <View style={styles.profileWrapper}>
+          <TouchableOpacity
+            style={styles.profileWrapper}
+            activeOpacity={0.9}
+            onPress={() => navigation.navigate('SocialProfile')}
+          >
             <View style={styles.profileCard}>
               <View style={styles.avatarBorder}>
                 <Image
@@ -184,7 +188,7 @@ export default function HomeScreenSocial({ navigation }) {
                 <Text style={styles.businessText}>Business</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* Black Content Panel */}

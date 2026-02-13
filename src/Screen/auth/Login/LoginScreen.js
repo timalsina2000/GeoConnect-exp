@@ -51,10 +51,12 @@ export default function LoginScreen({ route, navigation }) {
             />
           </View>
 
-          <Text style={styles.footer}>
-            Don't have an account yet?{' '}
-            <Text style={styles.link}>Sign up</Text>
-          </Text>
+          <View style={styles.footerRow}>
+            <Text style={styles.footer}>Don't have an account yet? </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('AccountType')}>
+              <Text style={styles.link}>Sign up</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -115,11 +117,16 @@ const styles = StyleSheet.create({
   footer: {
     color: '#9E9E9E',
     fontSize: 12,
-    textAlign: 'center',
+  },
+  footerRow: {
     marginTop: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   link: {
     color: '#B9F54A',
     fontWeight: '600',
+    fontSize: 12,
   },
 });

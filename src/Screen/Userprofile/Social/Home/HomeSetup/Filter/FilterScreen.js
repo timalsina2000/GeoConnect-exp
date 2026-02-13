@@ -7,22 +7,24 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  TextInput,
   Dimensions,
-  Platform,  // Added
-  StatusBar, // Added
+  Platform,
+  StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 
-const { width } = Dimensions.get('window');
 const NEON = '#B9F54A';
 const DARK = '#0B0B0B';
-const CARD_BG = '#FFFFFF';
 const BORDER = '#E6E6E6';
 
+
+const GENDER = ['Male', 'Female', 'Others'];
 const AGES = ['20-25', '25-28', '30-35', '36-40', '40-45'];
 const INTERESTS = ['Workout', 'Drink', 'Smoke', 'Kids', 'Games', 'Travel'];
+const LANGUAGES = ['🇬🇧 English', '🇫🇷 French', '🇮🇹 Italian', '🇳🇱 Dutch'];
+const PERSONALITIES = ['Introvert', 'Extrovert', 'Ambivert', 'Friendly'];
+const RELATIONSHIPS = ['Single', 'Widowed'];
 
 export default function FilterScreen({ navigation }) {
   // form state
@@ -30,10 +32,12 @@ export default function FilterScreen({ navigation }) {
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [selectedAges, setSelectedAges] = useState([]);
   const [selectedInterests, setSelectedInterests] = useState([]);
-  const [language, setLanguage] = useState('');
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [selectedPersonalities, setSelectedPersonalities] = useState([]);
   const [relationship, setRelationship] = useState('');
   const [nationality, setNationality] = useState('');
   const [distance, setDistance] = useState(1.2);
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   const toggleAge = (age) => {
     setSelectedAges((prev) =>
@@ -47,15 +51,23 @@ export default function FilterScreen({ navigation }) {
     );
   };
 
+  const toggleMultiOption = (value, setter) => {
+    setter((prev) =>
+      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+    );
+  };
+
   const resetFilters = () => {
     setConnectedTo('');
     setVerifiedOnly(false);
     setSelectedAges([]);
     setSelectedInterests([]);
-    setLanguage('');
+    setSelectedLanguages([]);
+    setSelectedPersonalities([]);
     setRelationship('');
     setNationality('');
     setDistance(1.2);
+    setOpenDropdown(null);
   };
 
   const applyFilters = () => {
@@ -64,7 +76,8 @@ export default function FilterScreen({ navigation }) {
       verifiedOnly,
       ages: selectedAges,
       interests: selectedInterests,
-      language,
+      languages: selectedLanguages,
+      personalities: selectedPersonalities,
       relationship,
       nationality,
       distance,
@@ -84,6 +97,74 @@ export default function FilterScreen({ navigation }) {
       </TouchableOpacity>
     </View>
   );
+
+  const renderDropdownRow = ({
+    label,
+    keyName,
+    options,
+    value,
+    onSelect,
+    multi = false,
+  }) => {
+    const isOpen = openDropdown === keyName;
+    const displayValue = multi
+      ? value.length
+        ? value.join(', ')
+        : ''
+      : value;
+
+    return (
+      <View style={styles.row}>
+        <Text style={styles.rowLabel}>{label}</Text>
+        <TouchableOpacity
+          style={styles.selectBox}
+          onPress={() => setOpenDropdown(isOpen ? null : keyName)}
+        >
+          <Text
+            style={[
+              styles.selectText,
+              !displayValue && { color: '#A0A0A0' },
+            ]}
+            numberOfLines={1}
+          >
+            {displayValue || 'Select'}
+          </Text>
+          <Ionicons
+            name={isOpen ? 'chevron-up' : 'chevron-down'}
+            size={18}
+            color="#9E9E9E"
+          />
+        </TouchableOpacity>
+
+        {isOpen && (
+          <View style={styles.dropdownMenu}>
+            {options.map((option) => {
+              const selected = multi ? value.includes(option) : value === option;
+              return (
+                <TouchableOpacity
+                  key={option}
+                  style={styles.dropdownItem}
+                  onPress={() => onSelect(option)}
+                >
+                  <Text
+                    style={[
+                      styles.dropdownItemText,
+                      selected && styles.dropdownItemTextSelected,
+                    ]}
+                  >
+                    {option}
+                  </Text>
+                  {selected && (
+                    <Ionicons name="checkmark" size={16} color={DARK} />
+                  )}
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        )}
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -111,9 +192,16 @@ export default function FilterScreen({ navigation }) {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {renderSelectRow('Connected to', connectedTo, () =>
-          console.log('open connected to picker')
-        )}
+        {renderDropdownRow({
+          label: 'Connected to',
+          keyName: 'connectedTo',
+          options: GENDER,
+          value: connectedTo,
+          onSelect: (option) => {
+            setConnectedTo(option);
+            setOpenDropdown(null);
+          },
+        })}
 
         <View style={styles.row}>
           <Text style={styles.rowLabel}>Profile Types</Text>
@@ -176,10 +264,32 @@ export default function FilterScreen({ navigation }) {
           </View>
         </View>
 
-        {renderSelectRow('Language', language, () => console.log('open language'))}
-        {renderSelectRow('Relationship', relationship, () =>
-          console.log('open relationship')
-        )}
+        {renderDropdownRow({
+          label: 'Language',
+          keyName: 'language',
+          options: LANGUAGES,
+          value: selectedLanguages,
+          multi: true,
+          onSelect: (option) => toggleMultiOption(option, setSelectedLanguages),
+        })}
+        {renderDropdownRow({
+          label: 'Personality',
+          keyName: 'personality',
+          options: PERSONALITIES,
+          value: selectedPersonalities,
+          multi: true,
+          onSelect: (option) => toggleMultiOption(option, setSelectedPersonalities),
+        })}
+        {renderDropdownRow({
+          label: 'Relationship',
+          keyName: 'relationship',
+          options: RELATIONSHIPS,
+          value: relationship,
+          onSelect: (option) => {
+            setRelationship(option);
+            setOpenDropdown(null);
+          },
+        })}
         {renderSelectRow('Nationality', nationality, () => console.log('open nationality'))}
 
         <View style={[styles.section, { marginTop: 6 }]}>
@@ -311,6 +421,33 @@ const styles = StyleSheet.create({
   selectText: {
     fontSize: 14,
     color: '#222',
+    flex: 1,
+    marginRight: 8,
+  },
+
+  dropdownMenu: {
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: BORDER,
+    borderRadius: 10,
+    overflow: 'hidden',
+    backgroundColor: '#FFF',
+  },
+  dropdownItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F1F1',
+  },
+  dropdownItemText: {
+    fontSize: 14,
+    color: '#222',
+  },
+  dropdownItemTextSelected: {
+    fontWeight: '700',
   },
 
   verifiedRow: {
