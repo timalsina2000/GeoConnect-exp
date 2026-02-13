@@ -177,7 +177,7 @@ export default function HomeScreenSocial({ navigation }) {
 
               <TouchableOpacity 
                 style={styles.businessBtn}
-                onPress={() => navigation.navigate('HomeScreenBusiness')}
+                onPress={() => navigation.navigate('SwitchProfile')}
               >
                 <Image source={require('../../../../../assets/Icon/redo.png')} 
                        style={{ width: 16, height: 16, }} />

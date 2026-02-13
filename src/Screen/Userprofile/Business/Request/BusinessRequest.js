@@ -36,7 +36,7 @@ const SENT = [
   { id: 's7', name: 'Nora', handle: '@nora', age: 35, avatar: 'https://randomuser.me/api/portraits/women/7.jpg' },
 ];
 
-export default function RequestScreen({ navigation }) {
+export default function BusinessRequest({ navigation }) {
   const [tab, setTab] = useState('received');
   const data = useMemo(() => (tab === 'received' ? RECEIVED : SENT), [tab]);
   const countLabel =
@@ -142,7 +142,7 @@ export default function RequestScreen({ navigation }) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.tabBtn}
+            style={[styles.tabBtn, { marginLeft: 18 }]}
             onPress={() => setTab('sent')}
             activeOpacity={0.8}
           >
@@ -194,14 +194,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
   },
   tabBtn: {
-    flex: 1,
     alignItems: 'center',
-    paddingBottom: 10,
-    position: 'relative',
+    marginRight: 30,
   },
   tabText: {
     fontSize: 14,
@@ -212,13 +208,11 @@ const styles = StyleSheet.create({
     color: BLACK,
   },
   tabIndicator: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: -1,
-    height: 2,
+    marginTop: 8,
+    height: 3,
+    width: 65,
     backgroundColor: ACCENT,
-    borderRadius: 2,
+    borderRadius: 3,
   },
   countText: {
     color: '#8A8A8A',
@@ -285,7 +279,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   acceptBtn: {
-    backgroundColor: ACCENT,
+    backgroundColor: '#FF4D6D',
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 12,

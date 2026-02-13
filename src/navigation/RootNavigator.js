@@ -17,11 +17,13 @@ import BlockList from '../Screen/Userprofile/Social/Menu/FriendList/BlockList';
 import WorkDetails from '../Screen/Userprofile/Social/Menu/createWork/WorkDetails';
 import SwitchProfile from '../Screen/Userprofile/Social/Menu/ProfileScreen/SwitchProfile';
 import VerifyProfile from '../Screen/Userprofile/Social/Menu/ProfileScreen/VerfiyProfile';
-import BusinessProfileScreen from '../Screen/Userprofile/Social/Menu/ProfileScreen/BusinessProfileScreen';
-import BusinessInfo from '../Screen/Userprofile/Social/Menu/BusinessInfo/BusinessInfo';
+import BusinessProfileScreen from '../Screen/Userprofile/Business/Menu/Profile/BusinessProfileScreen';
+import BusinessInfo from '../Screen/Userprofile/Business/Menu/BusinessInfo/BusinessInfo';
 import ExplorePeople from '../Screen/Userprofile/Social/Menu/FriendList/ExplorePeople';
-import Setting from '../Screen/Userprofile/Social/Menu/Settings/setting';
+import Setting from '../Screen/Userprofile/Social/Menu/Settings/Setting';
 import NotificationSetting from '../Screen/Userprofile/Social/Menu/Settings/NotificationSetting';
+import BusinessFriendScan from '../Screen/Userprofile/Business/HotZone/BusinessFriend';
+import ChatProfile from '../Screen/Userprofile/Social/Chat/ChatProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -82,6 +84,8 @@ export default function RootNavigator() {
       <Stack.Screen name="ExplorePeople" component={ExplorePeople} /> 
       <Stack.Screen name="Setting" component={Setting} /> 
       <Stack.Screen name="Notification" component={NotificationSetting} /> 
+      <Stack.Screen name="BusinessFriend" component={BusinessFriendScan}/>
+      <Stack.Screen name="ChatProfile" component={ChatProfile}/>
       
     </Stack.Navigator>
   );

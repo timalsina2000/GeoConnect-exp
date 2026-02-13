@@ -148,7 +148,7 @@ export default function HomeScreenBusiness({ navigation }) {
 
           <TouchableOpacity
             style={styles.socialToggle}
-            onPress={() => navigation.navigate('HomeScreenSocial')}
+            onPress={() => navigation.navigate('SwitchProfile')}
           >
             <Image source={require('../../../../../assets/Icon/redo.png')} 
                             style={{ width: 12, height: 12, }} />
@@ -399,7 +399,18 @@ const styles = StyleSheet.create({
   postText: { color: '#FFF', flex: 1, fontSize: 13, lineHeight: 18 },
 
   footerActions: { flexDirection: 'row', paddingVertical: 20, paddingBottom: 28, alignItems: 'center' },
-  scanBtn: { flex: 1, backgroundColor: '#f2f2f2', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: 16, height: 56, marginRight: 12 },
+  scanBtn: { flex: 1,
+     backgroundColor: '#FFFFFF', 
+     flexDirection: 'row', 
+     alignItems: 'center', 
+     justifyContent: 'center',
+     borderRadius: 16,
+     borderWidth: 1,
+    borderColor: '#0B0B0B',
+
+     height: 56, 
+     marginRight: 12 },
+
   scanText: { fontWeight: '700', color: DARK },
   connectBtn: { flex: 1.4, backgroundColor: PRIMARY_CORAL, alignItems: 'center', justifyContent: 'center', borderRadius: 16, height: 56 },
   connectText: { color: '#FFF', fontWeight: '800', fontSize: 16 },

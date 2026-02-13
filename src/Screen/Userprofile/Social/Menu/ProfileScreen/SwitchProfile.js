@@ -10,6 +10,7 @@ import {
   Image,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useProfile } from '../../../../../context/ProfileContext';
 
 const AVATAR = require('../../../../../../assets/image/welcome_bg.jpg');
 
@@ -19,7 +20,18 @@ const LIGHT_BG = '#F5F5F5';
 const TEXT_GRAY = '#7A7A7A';
 
 export default function SwitchProfile({ navigation }) {
-  const hasBusiness = false;
+  const { profileType, setProfileType } = useProfile();
+  const hasBusiness = true;
+
+  const switchToSocial = () => {
+    setProfileType('social');
+    navigation.navigate('HomeTabs');
+  };
+
+  const switchToBusiness = () => {
+    setProfileType('business');
+    navigation.navigate('HomeTabs');
+  };
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -32,7 +44,14 @@ export default function SwitchProfile({ navigation }) {
       </View>
 
       <View style={styles.card}>
-        <View style={styles.accountRowActive}>
+        <TouchableOpacity
+          style={[
+            styles.accountRow,
+            profileType === 'social' && styles.accountRowActive,
+          ]}
+          onPress={switchToSocial}
+          activeOpacity={0.85}
+        >
           <View style={styles.rowLeft}>
             <View style={styles.avatarWrap}>
               <Image source={AVATAR} style={styles.avatar} />
@@ -42,13 +61,22 @@ export default function SwitchProfile({ navigation }) {
               <Text style={styles.subText}>Social Profile</Text>
             </View>
           </View>
-          <View style={styles.checkCircle}>
-            <MaterialIcons name="check" size={16} color="#FFFFFF" />
-          </View>
-        </View>
+          {profileType === 'social' ? (
+            <View style={styles.checkCircle}>
+              <MaterialIcons name="check" size={16} color="#FFFFFF" />
+            </View>
+          ) : null}
+        </TouchableOpacity>
 
         {hasBusiness ? (
-          <View style={styles.accountRow}>
+          <TouchableOpacity
+            style={[
+              styles.accountRow,
+              profileType === 'business' && styles.accountRowActive,
+            ]}
+            onPress={switchToBusiness}
+            activeOpacity={0.85}
+          >
             <View style={styles.rowLeft}>
               <View style={styles.avatarWrapSmall}>
                 <Image source={AVATAR} style={styles.avatar} />
@@ -58,10 +86,15 @@ export default function SwitchProfile({ navigation }) {
                 <Text style={styles.subText}>Own Business Profile</Text>
               </View>
             </View>
-          </View>
+            {profileType === 'business' ? (
+              <View style={styles.checkCircle}>
+                <MaterialIcons name="check" size={16} color="#FFFFFF" />
+              </View>
+            ) : null}
+          </TouchableOpacity>
         ) : (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyText}>Currently you don’t</Text>
+            <Text style={styles.emptyText}>Currently you do not</Text>
             <Text style={styles.emptyText}>have a Professional account</Text>
             <TouchableOpacity style={styles.newBtn}>
               <Text style={styles.newBtnText}>+ New Professional Profile</Text>

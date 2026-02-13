@@ -4,6 +4,7 @@ import { StatusBar, View, ActivityIndicator } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import RootNavigator from './src/navigation/RootNavigator';
+import { ProfileProvider } from './src/context/ProfileContext';
 
 function App() {
   const [fontsLoaded] = useFonts({
@@ -22,9 +23,11 @@ function App() {
   return (
     <SafeAreaProvider>
       <StatusBar barStyle="light-content" backgroundColor="#0B0B0B" />
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
+      <ProfileProvider>
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
+      </ProfileProvider>
     </SafeAreaProvider>
   );
 }

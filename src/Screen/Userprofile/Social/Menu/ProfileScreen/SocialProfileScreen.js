@@ -85,7 +85,7 @@ export default function SocialProfileScreen({ navigation }) {
       <TouchableOpacity
         style={styles.switchButton}
         activeOpacity={0.9}
-        onPress={() => navigation.navigate('BusinessProfile')}
+        onPress={() => navigation.navigate('SwitchProfile')}
       >
         <Text style={styles.switchText}>Switch to Business Account</Text>
       </TouchableOpacity>

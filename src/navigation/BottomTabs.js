@@ -1,13 +1,22 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, Image } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useProfile } from '../context/ProfileContext';
+
+// Social screens
 import HomeStack from './HomeStack';
 import DiscoverScreen from '../Screen/Userprofile/Social/Request/RequestScreen';
 import ScanScreen from '../Screen/Userprofile/Social/HotZone/HotZoneScreen';
 import ChatScreen from '../Screen/Userprofile/Social/Chat/ChatScreen';
 import MoreScreen from '../Screen/Userprofile/Social/Menu/MoreScreen';
 
-import { MaterialIcons } from '@expo/vector-icons';
+// Business screens
+import HomeScreenBusiness from '../Screen/Userprofile/Business/Home/HomeScreenBusiness';
+import BusinessHotZone from '../Screen/Userprofile/Business/HotZone/BusinessHotZone';
+import BusinessChat from '../Screen/Userprofile/Business/Chat/BusinessChatS';
+import BusinessRequest from '../Screen/Userprofile/Business/Request/BusinessRequest';
+import BusinessMore from '../Screen/Userprofile/Business/Menu/BusinessMore';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,8 +27,18 @@ function TabLabel({ title, focused }) {
 }
 
 export default function BottomTabs() {
+  const { profileType } = useProfile();
+  const isBusiness = profileType === 'business';
+
+  const HomeComponent = isBusiness ? HomeScreenBusiness : HomeStack;
+  const DiscoverComponent = isBusiness ? BusinessRequest : DiscoverScreen;
+  const ChatComponent = isBusiness ? BusinessChat : ChatScreen;
+  const ScanComponent = isBusiness ? BusinessHotZone : ScanScreen;
+  const MoreComponent = isBusiness ? BusinessMore : MoreScreen;
+
   return (
     <Tab.Navigator
+      key={profileType}
       screenOptions={{
         headerShown: false,
         tabBarStyle: styles.tabBar,
@@ -30,7 +49,7 @@ export default function BottomTabs() {
     >
       <Tab.Screen
         name="Home"
-        component={HomeStack}
+        component={HomeComponent}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabLabel title="Home" focused={focused} />
@@ -39,8 +58,8 @@ export default function BottomTabs() {
             <Image
               source={
                 focused
-                  ? require("../../assets/Icon/home-active.png")
-                  : require("../../assets/Icon/home.png")
+                  ? require('../../assets/Icon/home-active.png')
+                  : require('../../assets/Icon/home.png')
               }
               style={{ width: size, height: size, tintColor: color }}
               resizeMode="contain"
@@ -48,31 +67,31 @@ export default function BottomTabs() {
           ),
         }}
       />
+
       <Tab.Screen
         name="Discover"
-        component={DiscoverScreen}
+        component={DiscoverComponent}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabLabel title="Request" focused={focused} />
           ),
           tabBarIcon: ({ focused, color, size }) => (
-            // <MaterialIcons name="people" size={size} color={color} />
             <Image
               source={
                 focused
-                  ? require("../../assets/Icon/profile-active.png")
-                  : require("../../assets/Icon/profile.png")
+                  ? require('../../assets/Icon/profile-active.png')
+                  : require('../../assets/Icon/profile.png')
               }
               style={{ width: size, height: size, tintColor: color }}
               resizeMode="contain"
             />
-
           ),
         }}
       />
-         <Tab.Screen
+
+      <Tab.Screen
         name="Chat"
-        component={ChatScreen}
+        component={ChatComponent}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabLabel title="Chat" focused={focused} />
@@ -81,8 +100,8 @@ export default function BottomTabs() {
             <Image
               source={
                 focused
-                  ? require("../../assets/Icon/messages-active.png")
-                  : require("../../assets/Icon/messages.png")
+                  ? require('../../assets/Icon/messages-active.png')
+                  : require('../../assets/Icon/messages.png')
               }
               style={{ width: size, height: size, tintColor: color }}
               resizeMode="contain"
@@ -90,9 +109,10 @@ export default function BottomTabs() {
           ),
         }}
       />
+
       <Tab.Screen
         name="Scan"
-        component={ScanScreen}
+        component={ScanComponent}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabLabel title="Hot Zone" focused={focused} />
@@ -101,18 +121,19 @@ export default function BottomTabs() {
             <Image
               source={
                 focused
-                  ? require("../../assets/Icon/hot-zone-active.png")
-                  : require("../../assets/Icon/hot-zone.png")
+                  ? require('../../assets/Icon/hot-zone-active.png')
+                  : require('../../assets/Icon/hot-zone.png')
               }
               style={{ width: size, height: size, tintColor: color }}
               resizeMode="contain"
             />
           ),
         }}
-      /> 
+      />
+
       <Tab.Screen
         name="More"
-        component={MoreScreen}
+        component={MoreComponent}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabLabel title="Menu" focused={focused} />
@@ -133,7 +154,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingBottom: 10,
     paddingTop: 6,
-
   },
   label: {
     fontSize: 10,

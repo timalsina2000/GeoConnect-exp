@@ -29,6 +29,8 @@ const WORKERS = [
 ];
 
 export default function ExplorePeople({ navigation }) {
+  const getDisplayName = (handle) => String(handle || '').replace(/^@/, '');
+
   const renderWorker = ({ item }) => (
     <View style={styles.workerCard}>
       {/* Avatar with Verified Badge */}
@@ -62,11 +64,20 @@ export default function ExplorePeople({ navigation }) {
         {/* Action Buttons Row */}
         <View style={styles.actionRow}>
           <TouchableOpacity style={[styles.actionBtn, { backgroundColor: item.isConnected ? GREEN : PINK }]}>
-            <MaterialCommunityIcons name="account-plus-outline" size={16} color={DARK} />
+             <Ionicons name="heart-outline" size={18} color={LIGHT_BG} />
             <Text style={styles.btnText}>Connect</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.actionBtn, { backgroundColor: BLUE }]}>
+          <TouchableOpacity
+            style={[styles.actionBtn, { backgroundColor: BLUE }]}
+            onPress={() =>
+              navigation.navigate('ChatDetail', {
+                name: getDisplayName(item.handle),
+                avatar: item.avatar,
+                status: `${item.role} - ${item.distance} away`,
+              })
+            }
+          >
             <MaterialCommunityIcons name="message-text-outline" size={16} color="#FFF" />
             <Text style={[styles.btnText, { color: '#FFF' }]}>Message</Text>
           </TouchableOpacity>
