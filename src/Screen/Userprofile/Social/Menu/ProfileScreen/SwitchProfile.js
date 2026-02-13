@@ -16,6 +16,7 @@ const AVATAR = require('../../../../../../assets/image/welcome_bg.jpg');
 
 const DARK = '#0B0B0B';
 const GREEN = '#CFF47A';
+const PINK = '#E95561';
 const LIGHT_BG = '#F5F5F5';
 const TEXT_GRAY = '#7A7A7A';
 
@@ -47,7 +48,7 @@ export default function SwitchProfile({ navigation }) {
         <TouchableOpacity
           style={[
             styles.accountRow,
-            profileType === 'social' && styles.accountRowActive,
+            profileType === 'social' && styles.accountRowActiveSocial,
           ]}
           onPress={switchToSocial}
           activeOpacity={0.85}
@@ -137,8 +138,16 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
   },
-  accountRowActive: {
+   accountRowActiveSocial: {
     backgroundColor: GREEN,
+    borderRadius: 12,
+    padding: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  accountRowActive: {
+    backgroundColor: PINK,
     borderRadius: 12,
     padding: 14,
     flexDirection: 'row',
@@ -180,7 +189,7 @@ const styles = StyleSheet.create({
   },
   avatar: { width: '100%', height: '100%' },
   name: { fontSize: 14, fontWeight: '800', color: DARK },
-  subText: { fontSize: 12, color: TEXT_GRAY, marginTop: 2 },
+  subText: { fontSize: 12, color: DARK, marginTop: 2 },
   checkCircle: {
     width: 22,
     height: 22,

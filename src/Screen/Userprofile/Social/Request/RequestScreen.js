@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     color: BLACK,
     marginBottom: 12,
   },
+  borderRadius: 2,
   tabsRow: {
     marginTop: 10,
     flexDirection: 'row',
@@ -218,7 +219,6 @@ const styles = StyleSheet.create({
     bottom: -1,
     height: 2,
     backgroundColor: ACCENT,
-    borderRadius: 2,
   },
   countText: {
     color: '#8A8A8A',

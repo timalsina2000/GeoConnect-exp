@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import MapView, { Marker, Circle } from 'react-native-maps';
+import * as Location from 'expo-location';
 
 const SAMPLE = [
   { id: '1', name: 'Rosser', handle: '@rosser', age: 35, avatar: 'https://randomuser.me/api/portraits/women/68.jpg' },
@@ -22,11 +23,41 @@ const SAMPLE = [
 ];
 
 export default function HotZoneScreen({ navigation }) {
-  // center (Florida example)
-  const center = { latitude: 27.994402, longitude: -81.760254 };
+  const defaultCenter = { latitude: 27.994402, longitude: -81.760254 };
+  const [center, setCenter] = useState(defaultCenter);
+  const [locationLabel, setLocationLabel] = useState('Florida, United States');
+  const [permissionText, setPermissionText] = useState('Location (within 10 miles)');
+
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setPermissionText('Location permission denied (showing default area)');
+          return;
+        }
+
+        const current = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+        });
+
+        const userCenter = {
+          latitude: current.coords.latitude,
+          longitude: current.coords.longitude,
+        };
+        setCenter(userCenter);
+        setLocationLabel('Current location');
+        setPermissionText('Location (within 10 miles)');
+      } catch (err) {
+        setPermissionText('Unable to get location (showing default area)');
+      }
+    };
+
+    requestLocationPermission();
+  }, []);
 
   // derive nearby coordinates from SAMPLE so markers spread around center
-  const hotzones = SAMPLE.map((item, idx) => {
+  const hotzones = useMemo(() => SAMPLE.map((item, idx) => {
     const latOffset = (idx - Math.floor(SAMPLE.length / 2)) * 0.003; // spreads markers in latitude
     const lngOffset = (idx % 2 === 0 ? 0.003 : -0.003) + idx * 0.0004; // small longitude variation
     return {
@@ -37,7 +68,7 @@ export default function HotZoneScreen({ navigation }) {
         longitude: center.longitude + lngOffset,
       },
     };
-  });
+  }), [center.latitude, center.longitude]);
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -47,8 +78,8 @@ export default function HotZoneScreen({ navigation }) {
 
         <View style={styles.searchBar}>
           <View>
-            <Text style={styles.location}>Florida, United States</Text>
-            <Text style={styles.radius}>Location (within 10 miles)</Text>
+            <Text style={styles.location}>{locationLabel}</Text>
+            <Text style={styles.radius}>{permissionText}</Text>
           </View>
           <Ionicons name="search" size={18} color="#fff" />
         </View>
@@ -57,6 +88,7 @@ export default function HotZoneScreen({ navigation }) {
       {/* Map Area */}
       <View style={styles.mapContainer}>
         <MapView
+          key={`${center.latitude}-${center.longitude}`}
           style={styles.map}
           initialRegion={{
             latitude: center.latitude,

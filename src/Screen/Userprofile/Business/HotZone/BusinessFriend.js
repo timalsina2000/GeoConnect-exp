@@ -567,7 +567,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   connectText: {
-    color: DARK,
+    color: BORDER,
     fontWeight: '800',
     fontSize: 13,
   },
@@ -639,7 +639,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   shoutText: {
-    color: DARK,
+    color: BORDER,
     fontWeight: '800',
     fontSize: 16,
   },

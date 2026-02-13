@@ -169,6 +169,7 @@ export default function BusinessRequest({ navigation }) {
 }
 
 const ACCENT = '#B9F54A';
+const PINK = '#FF4D6D';
 const BLACK = '#0B0B0B';
 const PILL_BG = '#0A0A0A';
 
@@ -194,10 +195,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
   },
   tabBtn: {
+    flex: 1,
     alignItems: 'center',
-    marginRight: 30,
+    paddingBottom: 10,
+    position: 'relative',
   },
   tabText: {
     fontSize: 14,
@@ -208,11 +213,12 @@ const styles = StyleSheet.create({
     color: BLACK,
   },
   tabIndicator: {
-    marginTop: 8,
-    height: 3,
-    width: 65,
-    backgroundColor: ACCENT,
-    borderRadius: 3,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: -1,
+    height: 2,
+    backgroundColor: PINK,
   },
   countText: {
     color: '#8A8A8A',
@@ -287,7 +293,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   acceptText: {
-    color: BLACK,
+    color: '#FFFFFF' ,
     fontWeight: '800',
   },
   cancelBtn: {
