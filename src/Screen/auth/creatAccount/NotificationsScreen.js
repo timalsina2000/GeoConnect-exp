@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryButton from '../../../components/PrimaryButton';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-export default function NotificationsScreen({ navigation }) {
+export default function NotificationsScreen({ navigation, route }) {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.container1}>
@@ -40,13 +40,21 @@ export default function NotificationsScreen({ navigation }) {
         </Text>
         <PrimaryButton
           title="Allow Notifications"
-          onPress={() => navigation.navigate('WelcomeFinal')}
+          onPress={() =>
+            navigation.navigate('WelcomeFinal', {
+              accountType: route.params?.accountType,
+            })
+          }
           style={styles.primary}
         />
         <PrimaryButton
           title="Not Now"
           variant="secondary"
-          onPress={() => navigation.navigate('WelcomeFinal')}
+          onPress={() =>
+            navigation.navigate('WelcomeFinal', {
+              accountType: route.params?.accountType,
+            })
+          }
           style={styles.secondary}
         />
         </View>

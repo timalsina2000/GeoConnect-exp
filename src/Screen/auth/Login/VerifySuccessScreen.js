@@ -3,9 +3,11 @@ import { StyleSheet, Text, View ,Dimensions} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryButton from '../../../components/PrimaryButton';
 
-export default function VerifySuccessScreen({ navigation }) {
+export default function VerifySuccessScreen({ navigation, route }) {
   const goNext = () => {
-    navigation.navigate('NamePassword');
+    navigation.navigate('NamePassword', {
+      accountType: route.params?.accountType,
+    });
   };
 
   return (

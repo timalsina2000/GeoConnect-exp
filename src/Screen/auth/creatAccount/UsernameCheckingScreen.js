@@ -2,13 +2,15 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function UsernameCheckingScreen({ navigation }) {
+export default function UsernameCheckingScreen({ navigation, route }) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace('TermsPolicies');
+      navigation.replace('TermsPolicies', {
+        accountType: route.params?.accountType,
+      });
     }, 900);
     return () => clearTimeout(timer);
-  }, [navigation]);
+  }, [navigation, route.params?.accountType]);
 
   return (
     <SafeAreaView style={styles.safe}>

@@ -3,9 +3,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryButton from '../../../components/PrimaryButton';
 
-export default function WelcomeFinalScreen({ navigation }) {
+export default function WelcomeFinalScreen({ navigation, route }) {
   const handleFinish = () => {
-    navigation.navigate('OnboardingDistance');
+    navigation.navigate('OnboardingDistance', {
+      accountType: route.params?.accountType,
+    });
   };
 
   return (

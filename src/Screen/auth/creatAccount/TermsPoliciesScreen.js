@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryButton from '../../../components/PrimaryButton';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function TermsPoliciesScreen({ navigation }) {
+export default function TermsPoliciesScreen({ navigation, route }) {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.container1}>
@@ -44,7 +44,11 @@ export default function TermsPoliciesScreen({ navigation }) {
             </Text>
             <PrimaryButton
               title="I Agree"
-              onPress={() => navigation.navigate('Notifications')}
+              onPress={() =>
+                navigation.navigate('Notifications', {
+                  accountType: route.params?.accountType,
+                })
+              }
               style={styles.button}
             />
           </View>

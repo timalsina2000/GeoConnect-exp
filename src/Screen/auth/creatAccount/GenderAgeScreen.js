@@ -12,7 +12,7 @@ const GENDERS = [
 
 const DOB_OPTIONS = ['DD', 'MM', 'YYYY'];
 
-export default function GenderAgeScreen({ navigation }) {
+export default function GenderAgeScreen({ navigation, route }) {
   const [selectedGender, setSelectedGender] = useState('women');
   const [dob, setDob] = useState(['DD', 'MM', 'YYYY']);
 
@@ -88,7 +88,11 @@ export default function GenderAgeScreen({ navigation }) {
 
         <PrimaryButton
           title="Next"
-          onPress={() => navigation.navigate('CreateUsername')}
+          onPress={() =>
+            navigation.navigate('CreateUsername', {
+              accountType: route.params?.accountType,
+            })
+          }
           disabled={!canContinue}
           style={styles.nextButton}
         />

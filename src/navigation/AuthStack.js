@@ -25,6 +25,9 @@ import CameraPermissionScreen from '../Screen/auth/creatAccount/profileDetails/C
 import GalleryPermissionScreen from '../Screen/auth/creatAccount/profileDetails/GalleryPermissionScreen';
 import AddPhotoFilledScreen from '../Screen/auth/creatAccount/profileDetails/AddPhotoFilledScreen';
 import SetAreaScreen from '../Screen/auth/creatAccount/profileDetails/SetAreaScreen';
+import BusinessInfo from '../Screen/auth/creatAccount/profileDetails/aboutBusinees/BusinessInfo';
+import Education from '../Screen/auth/creatAccount/profileDetails/aboutBusinees/Education';
+import AboutCompany from '../Screen/auth/creatAccount/profileDetails/aboutBusinees/AboutCompany';
 
   
 
@@ -66,6 +69,9 @@ export default function AuthStack({ onAuthSuccess }) {
         initialParams={{ onAuthSuccess }}
       />
       <Stack.Screen name="OnboardingDistance" component={DistanceScreen} />
+      <Stack.Screen name="OnboardingBusinessInfo" component={BusinessInfo} />
+      <Stack.Screen name="OnboardingEducation" component={Education} />
+      <Stack.Screen name="OnboardingAboutCompany" component={AboutCompany} />
       <Stack.Screen name="OnboardingAbout" component={AboutScreen} />
       <Stack.Screen name="OnboardingInterests" component={InterestsScreen} />
       <Stack.Screen name="OnboardingBio" component={BioScreen} />

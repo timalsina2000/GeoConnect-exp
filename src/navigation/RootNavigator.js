@@ -24,6 +24,7 @@ import Setting from '../Screen/Userprofile/Social/Menu/Settings/Setting';
 import NotificationSetting from '../Screen/Userprofile/Social/Menu/Settings/NotificationSetting';
 import BusinessFriendScan from '../Screen/Userprofile/Business/HotZone/BusinessFriend';
 import ChatProfile from '../Screen/Userprofile/Social/Chat/ChatProfile';
+import BusinessShake from '../Screen/Userprofile/Business/Home/Shaketoconnect/BusinessShake';
 
 const Stack = createNativeStackNavigator();
 
@@ -86,6 +87,7 @@ export default function RootNavigator() {
       <Stack.Screen name="Notification" component={NotificationSetting} /> 
       <Stack.Screen name="BusinessFriend" component={BusinessFriendScan}/>
       <Stack.Screen name="ChatProfile" component={ChatProfile}/>
+      <Stack.Screen name="BusinessShake" component={BusinessShake}/>
       
     </Stack.Navigator>
   );

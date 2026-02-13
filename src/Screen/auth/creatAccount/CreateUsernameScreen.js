@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 const SUGGESTIONS = ['jennifer02', 'jenni_98', 'jennifer'];
 
-export default function CreateUsernameScreen({ navigation }) {
+export default function CreateUsernameScreen({ navigation, route }) {
   const [username, setUsername] = useState('');
 
   const status = useMemo(() => {
@@ -70,7 +70,11 @@ export default function CreateUsernameScreen({ navigation }) {
 
         <PrimaryButton
           title="Next"
-          onPress={() => navigation.navigate('UsernameChecking')}
+          onPress={() =>
+            navigation.navigate('UsernameChecking', {
+              accountType: route.params?.accountType,
+            })
+          }
           disabled={!canContinue}
           style={styles.nextButton}
         />

@@ -7,7 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const DIGITS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '', '0', 'back'];
 
-export default function OtpVerifyScreen({ navigation }) {
+export default function OtpVerifyScreen({ navigation, route }) {
   const [code, setCode] = useState('');
 
   const codeArray = useMemo(() => {
@@ -61,7 +61,11 @@ export default function OtpVerifyScreen({ navigation }) {
 
         <PrimaryButton
           title="Submit"
-          onPress={() => navigation.navigate('VerifySuccess')}
+          onPress={() =>
+            navigation.navigate('VerifySuccess', {
+              accountType: route.params?.accountType,
+            })
+          }
           style={styles.submit}
           disabled={code.length < 4}
         />

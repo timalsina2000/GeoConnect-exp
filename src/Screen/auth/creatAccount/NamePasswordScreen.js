@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PrimaryButton from '../../../components/PrimaryButton';
-export default function NamePasswordScreen({ navigation }) {
+export default function NamePasswordScreen({ navigation, route }) {
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
@@ -19,7 +19,9 @@ export default function NamePasswordScreen({ navigation }) {
   const canSubmit = fullName.trim().length > 1 && checks.every((item) => item.ok);
 
   const handleNext = () => {
-    navigation.navigate('GenderAge');
+    navigation.navigate('GenderAge', {
+      accountType: route.params?.accountType,
+    });
   };
 
   return (

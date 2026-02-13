@@ -139,7 +139,11 @@ export default function CreateAccountScreen({ navigation, route }) {
           <View style={styles.footer}>
             <PrimaryButton
               title="Next"
-              onPress={() => navigation.navigate('OtpVerify')}
+              onPress={() =>
+                navigation.navigate('OtpVerify', {
+                  accountType: route.params?.accountType,
+                })
+              }
               disabled={!canContinue}
               style={styles.nextButton}
             />

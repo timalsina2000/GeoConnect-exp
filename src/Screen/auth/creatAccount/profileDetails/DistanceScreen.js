@@ -14,7 +14,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const { width } = Dimensions.get('window');
 
-export default function DistanceScreen({ navigation }) {
+export default function DistanceScreen({ navigation, route }) {
   const [distance, setDistance] = useState(17); // starting value
 
   const maxDistance = 100; // km
@@ -151,7 +151,19 @@ export default function DistanceScreen({ navigation }) {
 
         <PrimaryButton
           title="Continue"
-          onPress={() => navigation.navigate('OnboardingAbout')}
+          onPress={() => {
+            const isBusiness =
+              String(route.params?.accountType || '').toLowerCase() === 'business';
+
+            if (isBusiness) {
+              navigation.navigate('OnboardingBusinessInfo', {
+                accountType: route.params?.accountType,
+              });
+              return;
+            }
+
+            navigation.navigate('OnboardingAbout');
+          }}
           style={styles.cta}
         />
       </View>

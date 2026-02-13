@@ -196,7 +196,9 @@ export default function HomeScreenBusiness({ navigation }) {
             <Text style={styles.scanText}>Scan</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.connectBtn}>
+          <TouchableOpacity
+           onPress={()=> navigation.navigate('BusinessShake')}
+          style={styles.connectBtn}>
             <Text style={styles.connectText}>Shake to Connect</Text>
           </TouchableOpacity>
         </View>
